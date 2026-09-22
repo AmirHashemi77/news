@@ -18,10 +18,10 @@ const Home: FC = () => {
     <div className="flex flex-col w-full lg:flex-row gap-2 ">
       <div className="flex flex-col items-center gap-2  ">
         <NewsHero />
-        <NewsList title="آخرین اخبار" moreUrl="/news" />
+        <NewsList title="آخرین اخبار" moreUrl="/newsList/latestNews" pagination={false} />
       </div>
       <div className=" flex flex-col items-center gap-2  ">
-        <NewsList title="اخبار منتخب" moreUrl="/news" />
+        <NewsList title="اخبار منتخب" moreUrl="/newsList/Popular" pagination={false} />
         <NewsHeroCard
           commentCount={test.commentCount}
           description={test.description}
@@ -33,7 +33,7 @@ const Home: FC = () => {
           url={test.url}
           className="lg:flex-1 lg:max-h-64"
         />
-        <NewsList title="جدیدترین مطالب" moreUrl="/news" />
+        <NewsList title="خبرهای تکنولوژی" moreUrl="/newsList/technologyNews" pagination={false} />
       </div>
     </div>
   );

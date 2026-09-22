@@ -1,4 +1,12 @@
 @import "tailwindcss";
+@import "react-date-picker/dist/DatePicker.css";
+@import "react-calendar/dist/Calendar.css";
+
+.date-input .react-date-picker__wrapper { border: 0; height: 100%; padding: 0 0.75rem; }
+.date-input .react-date-picker__inputGroup { direction: ltr; font-size: 0.875rem; }
+.date-input .react-date-picker__inputGroup__input { color: var(--foreground); outline: none; }
+.date-input .react-date-picker__calendar { z-index: 20; }
+.date-input .react-calendar { border: 1px solid #e5e7eb; border-radius: 0.75rem; box-shadow: 0 10px 25px rgb(0 0 0 / 0.08); font-family: inherit; }
 
 :root {
   --background: #ffffff;
