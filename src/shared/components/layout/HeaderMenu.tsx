@@ -15,7 +15,7 @@ const menuList = [
   {
     id: "sdastebandt",
     title: "دسته بندی",
-    href: "/",
+    href: "/categoryList",
   },
   {
     id: "short",

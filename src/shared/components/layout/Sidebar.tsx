@@ -30,7 +30,7 @@ const menuList = [
   {
     id: "category",
     title: "دسته بندی",
-    href: "/",
+    href: "/categoryList",
     icon: FiGrid,
   },
   {
