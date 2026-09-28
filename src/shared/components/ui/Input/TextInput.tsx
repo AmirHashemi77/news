@@ -32,12 +32,13 @@ const TextInput: FC<PropsType> = ({ placeholder, className, name, label, id, err
         )}
         {...props}
       />
-
-      {error && (
-        <span id={errorId} className="px-1 text-xs text-red-500">
-          {error}
-        </span>
-      )}
+      <div className="min-h-6 px-1">
+        {error && (
+          <span id={errorId} className="px-1 text-xs text-red-500">
+            {error}
+          </span>
+        )}
+      </div>
     </div>
   );
 };

@@ -102,7 +102,7 @@ type NewsListProps =
 const NewsList: FC<NewsListProps> = ({ className, maxlenth, title, moreUrl, pagination }) => {
   return (
     <section className={cn("flex w-full flex-col items-center gap-3", className)}>
-      <div className="flex w-full items-center border-b border-gray-200 pb-2" dir="rtl">
+      <div className="flex w-full items-center border-b border-gray-200 mt-3" dir="rtl">
         <h2 className="border-r-4 border-foreground pr-3 text-lg font-bold text-gray-900 md:text-xl">{title}</h2>
       </div>
 
@@ -130,7 +130,7 @@ const NewsList: FC<NewsListProps> = ({ className, maxlenth, title, moreUrl, pagi
 
       {!pagination && moreUrl && (
         <div className="flex w-full justify-end border-t border-gray-200 pt-3" dir="rtl">
-          <Link href={moreUrl} className="group inline-flex items-center gap-1 text-sm font-medium text-foborder-foreground transition-colors hover:text-blue-800">
+          <Link href={moreUrl} className="group inline-flex items-center gap-1 text-sm font-medium text-foborder-foreground transition-colors hover:text-blue-800 ml-4">
             <span>مشاهده بیشتر</span>
             <FiArrowLeft className="size-4 transition-transform group-hover:-translate-x-1" aria-hidden="true" />
           </Link>

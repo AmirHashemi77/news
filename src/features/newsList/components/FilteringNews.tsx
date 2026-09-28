@@ -17,7 +17,7 @@ const FilteringNews: FC = () => {
   } = useForm<filterType>({
     resolver: zodResolver(filterSchema),
     defaultValues: {
-      title: null,
+      title: undefined,
       publishDate: null,
     },
   });
@@ -39,7 +39,7 @@ const FilteringNews: FC = () => {
         <TextInput {...register("title")} name="title" label="عنوان" error={errors.title?.message} />
         <FormDateInput label="تاریخ انتشار" control={control} name="publishDate" />
       </div>
-      <button className="self-end px-3 py-2 flex- items-center justify-center bg-foreground text-background rounded-md" type="submit">
+      <button className="self-end px-3 py-2 flex- items-center justify-center bg-foreground text-background rounded-md cursor-pointer" type="submit">
         جستجو
       </button>
     </form>

@@ -108,12 +108,13 @@ export function DateInput({
           onBlur?.();
         }}
       />
-
-      {error && (
-        <p role="alert" className="pr-1 text-xs text-red-600">
-          {error}
-        </p>
-      )}
+      <div className="min-h-6 px-1">
+        {error && (
+          <p role="alert" className="pr-1 text-xs text-red-600">
+            {error}
+          </p>
+        )}
+      </div>
     </div>
   );
 }
