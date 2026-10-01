@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import localFont from "next/font/local";
-import Header from "@/shared/components/layout/Header";
-import Footer from "@/shared/components/layout/Footer";
+import Header from "@/shared/layout/Header";
+import Footer from "@/shared/layout/Footer";
 
 const vazir = localFont({
   src: [

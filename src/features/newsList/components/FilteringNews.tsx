@@ -1,7 +1,7 @@
 "use client";
 import { FC } from "react";
-import TextInput from "@/shared/components/ui/Input/TextInput";
-import { FormDateInput } from "@/shared/components/ui/Input/DateInput";
+import TextInput from "@/shared/ui/Input/TextInput";
+import { FormDateInput } from "@/shared/ui/Input/DateInput";
 import { useForm } from "react-hook-form";
 import { filterSchema, filterType } from "../schemas/filterSchema";
 import { useRouter } from "next/navigation";

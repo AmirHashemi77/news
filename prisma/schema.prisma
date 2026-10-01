@@ -11,3 +11,111 @@ generator client {
 datasource db {
   provider = "postgresql"
 }
+
+model Category {
+  id       String @id @default(uuid()) @db.Uuid
+  name     String @unique
+  imageUrl String
+
+  news News[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model NewsAgency {
+  id   String @id @default(uuid()) @db.Uuid
+  name String @unique
+
+  news News[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model News {
+  id          String   @id @default(uuid()) @db.Uuid
+  title       String
+  subtitle    String
+  imageUrl    String
+  publishDate DateTime
+  viewCount   Int      @default(0)
+
+  // News Agency
+  newsAgencyId String     @db.Uuid
+  newsAgency   NewsAgency @relation(fields: [newsAgencyId], references: [id])
+
+  // Categories
+  categories Category[]
+
+  // Comments
+  comments Comment[]
+
+  // Recently viewed
+  viewedBy UserNewsView[]
+
+  // Saved by users
+  savedBy User[] @relation("SavedNews")
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([publishDate])
+  @@index([newsAgencyId])
+}
+
+model Comment {
+  id          String @id @default(uuid()) @db.Uuid
+  commentText String
+
+  // News
+  newsId String @db.Uuid
+  news   News   @relation(fields: [newsId], references: [id], onDelete: Cascade)
+
+  // Author
+  authorId String @db.Uuid
+  author   User   @relation(fields: [authorId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([newsId, createdAt])
+  @@index([authorId])
+}
+
+model User {
+  id        String @id @default(uuid()) @db.Uuid
+  firstName String
+  lastName  String
+  email     String @unique
+
+  // User comments
+  comments Comment[]
+
+  // Recently viewed news
+  newsViews UserNewsView[]
+
+  // Saved news
+  savedNews News[] @relation("SavedNews")
+
+  lastSignInAt DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model UserNewsView {
+  id String @id @default(uuid()) @db.Uuid
+
+  userId String @db.Uuid
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  newsId String @db.Uuid
+  news   News   @relation(fields: [newsId], references: [id], onDelete: Cascade)
+
+  viewedAt DateTime @default(now())
+
+  @@unique([userId, newsId])
+  @@index([userId, viewedAt])
+  @@index([newsId])
+}
