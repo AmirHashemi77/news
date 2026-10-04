@@ -15,6 +15,7 @@ datasource db {
 model Category {
   id       String @id @default(uuid()) @db.Uuid
   name     String @unique
+  slug     String @unique
   imageUrl String
 
   news News[]
@@ -37,25 +38,19 @@ model News {
   id          String   @id @default(uuid()) @db.Uuid
   title       String
   subtitle    String
-  imageUrl    String
+  content     String[]
+  imageUrl    String?
+  sourceUrl   String   @unique
   publishDate DateTime
   viewCount   Int      @default(0)
 
-  // News Agency
   newsAgencyId String     @db.Uuid
   newsAgency   NewsAgency @relation(fields: [newsAgencyId], references: [id])
 
-  // Categories
   categories Category[]
-
-  // Comments
-  comments Comment[]
-
-  // Recently viewed
-  viewedBy UserNewsView[]
-
-  // Saved by users
-  savedBy User[] @relation("SavedNews")
+  comments   Comment[]
+  viewedBy   UserNewsView[]
+  savedBy    User[] @relation("SavedNews")
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -63,7 +58,6 @@ model News {
   @@index([publishDate])
   @@index([newsAgencyId])
 }
-
 model Comment {
   id          String @id @default(uuid()) @db.Uuid
   commentText String
