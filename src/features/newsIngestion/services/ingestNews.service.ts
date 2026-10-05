@@ -3,56 +3,65 @@ import { NewsSource } from "../types/ingestNewsType";
 
 import { processNewsWithAi } from "./processNewsWithAi.service";
 
-export async function ingestNews(source: NewsSource, limit = 10) {
+export type IngestNewsResult = {
+  agency: string;
+
+  totalFetched: number;
+  createdCount: number;
+  skippedCount: number;
+  failedCount: number;
+
+  errors: {
+    sourceUrl: string;
+    message: string;
+  }[];
+};
+
+export async function ingestNews(source: NewsSource, limit = 10): Promise<IngestNewsResult> {
   if (!Number.isInteger(limit) || limit < 1) {
     throw new Error("Invalid news ingestion limit");
   }
 
-  // 1. Fetch RSS items
   const rssItems = await source.fetchNewsLinks();
 
-  let created = 0;
-  let skipped = 0;
-  let failed = 0;
+  let createdCount = 0;
+  let skippedCount = 0;
+  let failedCount = 0;
 
-  // 2. Process articles
+  const errors: IngestNewsResult["errors"] = [];
+
   for (const item of rssItems) {
-    if (created >= limit) {
+    if (createdCount >= limit) {
       break;
     }
 
     if (!item.title || !item.sourceUrl || !item.publishDate) {
-      skipped++;
+      skippedCount++;
       continue;
     }
 
     try {
-      // 3. Check duplicate
       const exists = await newsExistsBySourceUrl(item.sourceUrl);
 
       if (exists) {
-        skipped++;
+        skippedCount++;
         continue;
       }
 
-      // 4. Validate date
       const publishDate = new Date(item.publishDate);
 
       if (Number.isNaN(publishDate.getTime())) {
-        skipped++;
+        skippedCount++;
         continue;
       }
 
-      // 5. Fetch article details
       const details = await source.fetchArticleDetails(item.sourceUrl, item.title);
 
-      // 6. Process with AvalAI
       const processed = await processNewsWithAi({
         title: item.title,
         content: details.content,
       });
 
-      // 7. Save to PostgreSQL
       const result = await saveProcessedNews({
         title: item.title,
 
@@ -69,21 +78,29 @@ export async function ingestNews(source: NewsSource, limit = 10) {
       });
 
       if (result.status === "created") {
-        created++;
+        createdCount++;
       } else {
-        skipped++;
+        skippedCount++;
       }
     } catch (error) {
-      failed++;
+      failedCount++;
 
-      console.error(`Failed to ingest news from ${source.name}:`, item.sourceUrl, error);
+      errors.push({
+        sourceUrl: item.sourceUrl,
+        message: error instanceof Error ? error.message : "Unknown error",
+      });
     }
   }
 
   return {
     agency: source.name,
-    created,
-    skipped,
-    failed,
+
+    totalFetched: rssItems.length,
+
+    createdCount,
+    skippedCount,
+    failedCount,
+
+    errors,
   };
 }

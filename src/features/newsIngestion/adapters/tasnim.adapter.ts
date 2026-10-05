@@ -1,6 +1,7 @@
 import Parser from "rss-parser";
 import * as cheerio from "cheerio";
 import { ArticleDetails, RawNewsItem } from "../types/ingestNewsType";
+import { fetchWithRetry } from "@/shared/lib/retry";
 
 const parser = new Parser();
 
@@ -29,11 +30,14 @@ function cleanTasnimContent(content: string, title: string): string {
 }
 
 export async function fetchTasnimArticleDetails(sourceUrl: string, title: string): Promise<ArticleDetails> {
-  const response = await fetch(sourceUrl, {
+  const response = await fetchWithRetry(sourceUrl, {
     headers: {
-      "User-Agent": "Mozilla/5.0 (compatible; NewsAggregator/1.0)",
+      "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/120 Safari/537.36",
+
+      Accept: "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+
+      "Accept-Language": "fa-IR,fa;q=0.9,en;q=0.8",
     },
-    cache: "no-store",
   });
 
   if (!response.ok) {
