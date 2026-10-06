@@ -1,35 +1,5 @@
 import { prisma } from "@/shared/lib/prisma";
-
-export enum IngestionStatus {
-  RUNNING = "RUNNING",
-  SUCCESS = "SUCCESS",
-  PARTIAL_FAILED = "PARTIAL_FAILED",
-  FAILED = "FAILED",
-}
-
-type FinishIngestionLogInput = {
-  id: string;
-
-  status: IngestionStatus.SUCCESS | IngestionStatus.PARTIAL_FAILED;
-
-  totalFetched: number;
-  createdCount: number;
-  skippedCount: number;
-  failedCount: number;
-
-  startedAt: Date;
-};
-
-type FailIngestionLogInput = {
-  id: string;
-  startedAt: Date;
-  errorMessage: string;
-
-  totalFetched?: number;
-  createdCount?: number;
-  skippedCount?: number;
-  failedCount?: number;
-};
+import { FailIngestionLogInput, FinishIngestionLogInput, IngestionStatus } from "../types/ingestionLog.type";
 
 export async function createIngestionLog(sourceName: string) {
   return prisma.ingestionLog.create({

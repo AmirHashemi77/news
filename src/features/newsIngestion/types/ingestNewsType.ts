@@ -28,3 +28,17 @@ export type NewsSource = {
 
   fetchArticleDetails: (sourceUrl: string, title: string) => Promise<ArticleDetails>;
 };
+
+export type IngestNewsResult = {
+  agency: string;
+
+  totalFetched: number;
+  createdCount: number;
+  skippedCount: number;
+  failedCount: number;
+
+  errors: {
+    sourceUrl: string;
+    message: string;
+  }[];
+};

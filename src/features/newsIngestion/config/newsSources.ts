@@ -1,12 +1,35 @@
-import { fetchTasnimNewsLinks, fetchTasnimArticleDetails } from "../adapters/tasnim.adapter";
+import { fetchHamshahriArticleDetails, fetchHamshahriNewsLinks } from "../adapters/hamshahri.adaptor";
+import { fetchMehrArticleDetails, fetchMehrNewsLinks } from "../adapters/mehr.adaptor";
+import { fetchVarzesh3ArticleDetails, fetchVarzesh3NewsLinks } from "../adapters/varzesh3.adaptor";
 import { NewsSource } from "../types/ingestNewsType";
 
 export const newsSources = [
+  // {
+  //   name: "Tasnim",
+
+  //   fetchNewsLinks: fetchTasnimNewsLinks,
+
+  //   fetchArticleDetails: fetchTasnimArticleDetails,
+  // },
+  // {
+  //   name: "Mehr",
+
+  //   fetchNewsLinks: fetchMehrNewsLinks,
+
+  //   fetchArticleDetails: fetchMehrArticleDetails,
+  // },
+  // {
+  //   name: "Hamshahri",
+
+  //   fetchNewsLinks: fetchHamshahriNewsLinks,
+
+  //   fetchArticleDetails: fetchHamshahriArticleDetails,
+  // },
   {
-    name: "Tasnim",
+    name: "Varzesh3",
 
-    fetchNewsLinks: fetchTasnimNewsLinks,
+    fetchNewsLinks: fetchVarzesh3NewsLinks,
 
-    fetchArticleDetails: fetchTasnimArticleDetails,
+    fetchArticleDetails: fetchVarzesh3ArticleDetails,
   },
 ] satisfies NewsSource[];

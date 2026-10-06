@@ -1,4 +1,5 @@
-import { createIngestionLog, failIngestionLog, finishIngestionLog, IngestionStatus } from "../repositories/ingestionLog.repository";
+import { createIngestionLog, failIngestionLog, finishIngestionLog } from "../repositories/ingestionLog.repository";
+import { IngestionStatus } from "../types/ingestionLog.type";
 
 type FinishMonitoringInput = {
   id: string;

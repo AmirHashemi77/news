@@ -1,21 +1,7 @@
 import { newsExistsBySourceUrl, saveProcessedNews } from "../repositories/newsIngestion.repository";
-import { NewsSource } from "../types/ingestNewsType";
+import { IngestNewsResult, NewsSource } from "../types/ingestNewsType";
 
 import { processNewsWithAi } from "./processNewsWithAi.service";
-
-export type IngestNewsResult = {
-  agency: string;
-
-  totalFetched: number;
-  createdCount: number;
-  skippedCount: number;
-  failedCount: number;
-
-  errors: {
-    sourceUrl: string;
-    message: string;
-  }[];
-};
 
 export async function ingestNews(source: NewsSource, limit = 10): Promise<IngestNewsResult> {
   if (!Number.isInteger(limit) || limit < 1) {

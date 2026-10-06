@@ -1,6 +1,6 @@
 import Parser from "rss-parser";
 import * as cheerio from "cheerio";
-import { ArticleDetails, RawNewsItem } from "../types/ingestNewsType";
+import { ArticleDetails } from "../types/ingestNewsType";
 import { fetchWithRetry } from "@/shared/lib/retry";
 
 const parser = new Parser();
@@ -73,31 +73,4 @@ export async function fetchTasnimArticleDetails(sourceUrl: string, title: string
     content,
     imageUrl,
   };
-}
-
-export async function fetchTasnimLatestNews(): Promise<RawNewsItem[]> {
-  const rssItems = await fetchTasnimNewsLinks();
-
-  const item = rssItems[0];
-
-  if (!item || !item.title || !item.sourceUrl || !item.publishDate) {
-    return [];
-  }
-
-  const details = await fetchTasnimArticleDetails(item.sourceUrl, item.title);
-
-  return [
-    {
-      title: item.title,
-      content: details.content,
-
-      sourceUrl: item.sourceUrl,
-      imageUrl: details.imageUrl,
-
-      publishDate: new Date(item.publishDate),
-
-      agencyName: "Tasnim",
-      language: "fa",
-    },
-  ];
 }
