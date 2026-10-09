@@ -1,11 +1,28 @@
-export interface NewsCardProps {
+export interface NewsItem {
   id: string;
   title: string;
-  description: string;
-  commentCount: number;
-  image: string;
-  url: string;
-  tags: string[];
+  subtitle: string;
   publishDate: string;
-  className?: string;
+  imageUrl: string | null;
+  commentCount: number;
+  viewCount: number;
+  categories: Category[];
+}
+
+export interface Category {
+  id: string;
+  slug: string;
+  name: string;
+  imageUrl?: string;
+}
+
+export interface NewsListCountData {
+  pageNumber: number;
+  pageSize: number;
+  totalCount: number;
+  totalPages: number;
+}
+export interface NewList {
+  pagination: NewsListCountData;
+  newsList: NewsItem[];
 }
