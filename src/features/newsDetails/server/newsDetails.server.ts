@@ -1,6 +1,6 @@
 import "server-only";
 
-import { getNewsDetails } from "../repository/newsDetails.repository";
+import { getNewsDetails, incrementNewsViewCount } from "../repository/newsDetails.repository";
 
 export async function getNewsDetailsService(newsId: string) {
   const result = await getNewsDetails(newsId);
@@ -14,5 +14,18 @@ export async function getNewsDetailsService(newsId: string) {
   return {
     status: "success" as const,
     data: result,
+  };
+}
+export async function incrementNewsViewService(newsId: string) {
+  const updated = await incrementNewsViewCount(newsId);
+
+  if (!updated) {
+    return {
+      status: "not-found" as const,
+    };
+  }
+
+  return {
+    status: "success" as const,
   };
 }

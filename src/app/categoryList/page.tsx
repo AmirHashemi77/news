@@ -1,5 +1,5 @@
 import CategoryListCard from "@/features/category/component/CategoryListCard";
-import Image from "next/image";
+import { getCategoriesService } from "@/features/category/server/category.server";
 import { FC } from "react";
 
 export const newsCategories = [
@@ -101,12 +101,14 @@ export const newsCategories = [
   },
 ];
 
-const CategoryListPage: FC = () => {
+const CategoryListPage: FC = async () => {
+  const categories = await getCategoriesService();
+
   return (
     <div className="flex flex-col items-start gap-5 w-full">
       <div className="flex items-center justify-between gap-5 flex-wrap w-full">
-        {newsCategories.map((item) => {
-          return <CategoryListCard categoryUrl={item.categoryUrl} id={item.id} imageUrl={item.imageUrl} title={item.title} key={item.id} />;
+        {categories.map((item) => {
+          return <CategoryListCard slug={item.slug} id={item.id} imageUrl={item.imageUrl} name={item.name} key={item.id} />;
         })}
       </div>
     </div>

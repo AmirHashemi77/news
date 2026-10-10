@@ -13,6 +13,7 @@ export async function getNewsDetails(newsId: string) {
       content: true,
       publishDate: true,
       newsAgency: true,
+      viewCount: true,
       categories: {
         select: {
           id: true,
@@ -35,5 +36,21 @@ export async function getNewsDetails(newsId: string) {
     content: news.content,
     newsAgency: news.newsAgency,
     categories: news.categories,
+    viewCount: news.viewCount,
   };
+}
+export async function incrementNewsViewCount(newsId: string) {
+  const result = await prisma.news.updateMany({
+    where: {
+      id: newsId,
+    },
+
+    data: {
+      viewCount: {
+        increment: 1,
+      },
+    },
+  });
+
+  return result.count > 0;
 }

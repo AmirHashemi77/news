@@ -1,30 +1,31 @@
 import { fetchHamshahriArticleDetails, fetchHamshahriNewsLinks } from "../adapters/hamshahri.adaptor";
 import { fetchMehrArticleDetails, fetchMehrNewsLinks } from "../adapters/mehr.adaptor";
+import { fetchTasnimArticleDetails, fetchTasnimNewsLinks } from "../adapters/tasnim.adapter";
 import { fetchVarzesh3ArticleDetails, fetchVarzesh3NewsLinks } from "../adapters/varzesh3.adaptor";
 import { NewsSource } from "../types/ingestNewsType";
 
 export const newsSources = [
-  // {
-  //   name: "Tasnim",
+  {
+    name: "Tasnim",
 
-  //   fetchNewsLinks: fetchTasnimNewsLinks,
+    fetchNewsLinks: fetchTasnimNewsLinks,
 
-  //   fetchArticleDetails: fetchTasnimArticleDetails,
-  // },
-  // {
-  //   name: "Mehr",
+    fetchArticleDetails: fetchTasnimArticleDetails,
+  },
+  {
+    name: "Mehr",
 
-  //   fetchNewsLinks: fetchMehrNewsLinks,
+    fetchNewsLinks: fetchMehrNewsLinks,
 
-  //   fetchArticleDetails: fetchMehrArticleDetails,
-  // },
-  // {
-  //   name: "Hamshahri",
+    fetchArticleDetails: fetchMehrArticleDetails,
+  },
+  {
+    name: "Hamshahri",
 
-  //   fetchNewsLinks: fetchHamshahriNewsLinks,
+    fetchNewsLinks: fetchHamshahriNewsLinks,
 
-  //   fetchArticleDetails: fetchHamshahriArticleDetails,
-  // },
+    fetchArticleDetails: fetchHamshahriArticleDetails,
+  },
   {
     name: "Varzesh3",
 
