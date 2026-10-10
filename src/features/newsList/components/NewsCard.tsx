@@ -3,12 +3,13 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { FiCalendar, FiMessageCircle } from "react-icons/fi";
-import { type NewsCardProps } from "../types/NewsList.type";
+import { NewsItem } from "../types/NewsList.type";
+import { formatPersianDate } from "@/shared/lib/formatDate";
 
-export default function NewsCard({ id, title, description, commentCount, image, url, tags, publishDate, className }: NewsCardProps) {
+export default function NewsCard({ id, title, subtitle, commentCount, imageUrl, categories, publishDate, className }: Omit<NewsItem, "viewCount"> & { className?: string }) {
   return (
     <Link
-      href={url}
+      href={`news/${id}`}
       data-id={id}
       className={cn(
         `
@@ -39,7 +40,7 @@ export default function NewsCard({ id, title, description, commentCount, image, 
         "
       >
         <Image
-          src={image}
+          src={imageUrl ? imageUrl : ""}
           alt={title}
           fill
           sizes="150px"
@@ -64,11 +65,11 @@ export default function NewsCard({ id, title, description, commentCount, image, 
         "
       >
         {/* Tags */}
-        {tags.length > 0 && (
+        {categories.length > 0 && (
           <div className="mb-1.5 flex flex-wrap gap-1.5">
-            {tags.map((tag) => (
+            {categories.map((category) => (
               <span
-                key={tag}
+                key={category.id}
                 className="
                   rounded
                   bg-gray-100
@@ -79,7 +80,7 @@ export default function NewsCard({ id, title, description, commentCount, image, 
                   text-gray-600
                 "
               >
-                {tag}
+                {category.name}
               </span>
             ))}
           </div>
@@ -111,7 +112,7 @@ export default function NewsCard({ id, title, description, commentCount, image, 
             text-gray-500
           "
         >
-          {description}
+          {subtitle}
         </p>
 
         {/* Meta */}
@@ -129,7 +130,7 @@ export default function NewsCard({ id, title, description, commentCount, image, 
           <div className="flex items-center gap-1">
             <FiCalendar className="size-3.5" />
 
-            <span>{publishDate}</span>
+            <span>{formatPersianDate(publishDate)}</span>
           </div>
 
           <div className="flex items-center gap-1">

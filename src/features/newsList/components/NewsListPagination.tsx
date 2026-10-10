@@ -11,14 +11,14 @@ export function Pagination({ totalPages }: PaginationProps) {
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
-  const currentPage = Number(searchParams.get("page")) || 1;
+  const currentPage = Number(searchParams.get("pageNumber")) || 1;
 
   const changePage = (page: number) => {
     if (page < 1 || page > totalPages) return;
 
     const params = new URLSearchParams(searchParams.toString());
 
-    params.set("page", String(page));
+    params.set("pageNumber", String(page));
 
     router.push(`${pathname}?${params.toString()}`, {
       scroll: false,
@@ -64,7 +64,7 @@ export function Pagination({ totalPages }: PaginationProps) {
         className="
     flex size-10 items-center justify-center rounded-lg border
     border-gray-200 bg-white text-gray-600 transition
-    hover:bg-gray-100
+    hover:bg-gray-100 cursor-pointer
     disabled:cursor-not-allowed disabled:opacity-40
   "
       >
@@ -91,7 +91,7 @@ export function Pagination({ totalPages }: PaginationProps) {
             aria-current={isActive ? "page" : undefined}
             className={`
               flex size-10 items-center justify-center rounded-lg border
-              text-sm font-medium transition
+              text-sm font-medium transition cursor-pointer
               ${isActive ? "border-black bg-black text-white" : "border-gray-200 bg-white text-gray-600 hover:bg-gray-100"}
             `}
           >
@@ -108,7 +108,7 @@ export function Pagination({ totalPages }: PaginationProps) {
         className="
     flex size-10 items-center justify-center rounded-lg border
     border-gray-200 bg-white text-gray-600 transition
-    hover:bg-gray-100
+    hover:bg-gray-100 cursor-pointer
     disabled:cursor-not-allowed disabled:opacity-40
   "
       >

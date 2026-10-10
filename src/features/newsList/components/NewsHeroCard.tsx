@@ -3,20 +3,22 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { FiCalendar, FiMessageCircle } from "react-icons/fi";
+import { Category } from "../types/NewsList.type";
+import { formatPersianDate } from "@/shared/lib/formatDate";
 
 interface NewsImageCardProps {
   id: string;
   title: string;
-  description: string;
+  subtitle: string;
   commentCount: number;
   image: string;
   url: string;
-  tags: string[];
-  publishDate: string;
+  categories: Category[];
+  publishDate: Date;
   className?: string;
 }
 
-export default function NewsHeroCard({ id, title, description, commentCount, image, url, tags, publishDate, className }: NewsImageCardProps) {
+export default function NewsHeroCard({ id, title, subtitle, commentCount, image, url, categories, publishDate, className }: NewsImageCardProps) {
   return (
     <Link
       href={url}
@@ -83,11 +85,11 @@ export default function NewsHeroCard({ id, title, description, commentCount, ima
           p-4
         "
       >
-        {/* Tags */}
+        {/* categories */}
         <div className="flex flex-wrap items-center gap-2">
-          {tags.slice(0, 2).map((tag) => (
+          {categories.slice(0, 2).map((category) => (
             <span
-              key={tag}
+              key={category.id}
               className="
                 rounded-sm
                 bg-white/90
@@ -99,7 +101,7 @@ export default function NewsHeroCard({ id, title, description, commentCount, ima
                 backdrop-blur-sm
               "
             >
-              {tag}
+              {category.name}
             </span>
           ))}
         </div>
@@ -122,8 +124,8 @@ export default function NewsHeroCard({ id, title, description, commentCount, ima
             {title}
           </h2>
 
-          {/* Description for accessibility / semantic content */}
-          <p className="sr-only">{description}</p>
+          {/* subtitle for accessibility / semantic content */}
+          <p className="sr-only">{subtitle}</p>
 
           {/* Meta */}
           <div
@@ -139,7 +141,7 @@ export default function NewsHeroCard({ id, title, description, commentCount, ima
             <div className="flex items-center gap-1.5">
               <FiCalendar className="size-3.5" />
 
-              <span>{publishDate}</span>
+              <span>{formatPersianDate(publishDate)}</span>
             </div>
 
             <div className="flex items-center gap-1.5">

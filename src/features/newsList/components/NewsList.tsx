@@ -4,26 +4,25 @@ import { FiArrowLeft } from "react-icons/fi";
 import NewsCard from "./NewsCard";
 import { cn } from "@/shared/lib/cn";
 import { Pagination } from "./NewsListPagination";
-import { newsListData } from "../data/newsListData";
-
+import { NewList } from "../types/NewsList.type";
 
 type NewsListProps =
   | {
       pagination: false;
       className?: string;
-      maxlenth?: number;
       title: string;
       moreUrl: string;
+      newsData: NewList;
     }
   | {
       pagination: true;
       className?: string;
-      maxlenth?: number;
       title: string;
       moreUrl: null;
+      newsData: NewList;
     };
 
-const NewsList: FC<NewsListProps> = ({ className, maxlenth, title, moreUrl, pagination }) => {
+const NewsList: FC<NewsListProps> = async ({ className, title, moreUrl, pagination, newsData }) => {
   return (
     <section className={cn("flex w-full flex-col items-center gap-3", className)}>
       <div className="flex w-full items-center border-b border-gray-200 mt-3" dir="rtl">
@@ -31,21 +30,16 @@ const NewsList: FC<NewsListProps> = ({ className, maxlenth, title, moreUrl, pagi
       </div>
 
       <div className="flex w-full flex-col items-center gap-2">
-        {newsListData.map((item, indx) => {
-          if (maxlenth && indx > maxlenth) {
-            return;
-          }
-
+        {newsData.newsList.map((item) => {
           return (
             <NewsCard
               commentCount={item.commentCount}
-              description={item.description}
+              subtitle={item.subtitle}
               id={item.id}
-              image={item.image}
+              imageUrl={item.imageUrl}
               title={item.title}
-              tags={item.tags}
+              categories={item.categories}
               publishDate={item.publishDate}
-              url={item.url}
               key={item.id}
             />
           );
@@ -61,7 +55,7 @@ const NewsList: FC<NewsListProps> = ({ className, maxlenth, title, moreUrl, pagi
         </div>
       )}
 
-      {pagination && !moreUrl && <Pagination totalPages={10} />}
+      {pagination && !moreUrl && <Pagination totalPages={newsData.pagination?.totalPages ? newsData.pagination?.totalPages : 1} />}
     </section>
   );
 };

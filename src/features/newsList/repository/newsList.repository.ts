@@ -5,7 +5,7 @@ export type GetNewsInput = {
   pageSize: number;
 };
 
-export async function getLatestNews({ pageNumber, pageSize }: GetNewsInput) {
+export async function getLatestNews({ pageNumber = 1, pageSize = 10 }: GetNewsInput) {
   const skip = (pageNumber - 1) * pageSize;
 
   const [totalCount, news] = await Promise.all([
@@ -66,8 +66,9 @@ export async function getLatestNews({ pageNumber, pageSize }: GetNewsInput) {
   };
 }
 
-export async function getPopularNews({ pageNumber, pageSize }: GetNewsInput) {
+export async function getPopularNews({ pageNumber = 1, pageSize = 10 }: GetNewsInput) {
   const skip = (pageNumber - 1) * pageSize;
+
   const tenDaysAgo = new Date();
   tenDaysAgo.setDate(tenDaysAgo.getDate() - 10);
   const [totalCount, news] = await Promise.all([
@@ -200,7 +201,7 @@ export async function getPosterNews() {
   };
 }
 
-export async function getNewsByCategory({ pageNumber, pageSize, categorySlug }: GetNewsInput & { categorySlug: string }) {
+export async function getNewsByCategory({ pageNumber = 1, pageSize = 10, categorySlug }: GetNewsInput & { categorySlug: string }) {
   const skip = (pageNumber - 1) * pageSize;
   const [totalCount, news] = await Promise.all([
     prisma.news.count({

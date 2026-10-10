@@ -2,7 +2,7 @@ export interface NewsItem {
   id: string;
   title: string;
   subtitle: string;
-  publishDate: string;
+  publishDate: Date;
   imageUrl: string | null;
   commentCount: number;
   viewCount: number;
@@ -23,6 +23,6 @@ export interface NewsListCountData {
   totalPages: number;
 }
 export interface NewList {
-  pagination: NewsListCountData;
+  pagination?: NewsListCountData;
   newsList: NewsItem[];
 }

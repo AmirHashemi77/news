@@ -1,7 +1,9 @@
-import NewsHero from "@/features/newsList/components/NewsHero";
+import NewsHero from "@/features/newsList/components/sections/NewsHero";
 import NewsHeroCard from "@/features/newsList/components/NewsHeroCard";
-import NewsList from "@/features/newsList/components/NewsList";
-import { FC } from "react";
+import LatestNewsListSection from "@/features/newsList/components/sections/LatestNewsListSection";
+import PopularNewsListSection from "@/features/newsList/components/sections/PopularNewsListSection";
+import SportNewsListSection from "@/features/newsList/components/sections/SportNewsListSection";
+import NewsPosterSection from "@/features/newsList/components/sections/NewsPosterSection";
 const test = {
   id: "1",
   title: "تحولات جدید در حوزه هوش مصنوعی",
@@ -10,30 +12,30 @@ const test = {
   image: "https://media.mehrnews.com/d/2025/06/01/3/5530651.jpg?ts=1748777839185",
   url: "/news/ai-development",
   tags: ["هوش مصنوعی", "تکنولوژی"],
-  publishDate: "۳۰ شهریور ۱۴۰۵",
+  publishDate: new Date(),
 };
 
-const Home: FC = () => {
+interface PropsType {
+  params: Promise<{
+    categorySlug: string;
+  }>;
+  searchParams: Promise<{
+    pageNumber?: string;
+    pageSize?: string;
+  }>;
+}
+
+const Home = async ({ params, searchParams }: PropsType) => {
   return (
     <div className="flex flex-col w-full lg:flex-row gap-2 ">
       <div className="flex flex-col items-center gap-2  ">
         <NewsHero />
-        <NewsList title="آخرین اخبار" moreUrl="/newsList/latestNews" pagination={false} />
+        <PopularNewsListSection />
       </div>
       <div className=" flex flex-col items-center gap-2  ">
-        <NewsList title="اخبار منتخب" moreUrl="/newsList/Popular" pagination={false} />
-        <NewsHeroCard
-          commentCount={test.commentCount}
-          description={test.description}
-          id={test.id}
-          image={test.image}
-          publishDate={test.publishDate}
-          tags={test.tags}
-          title={test.title}
-          url={test.url}
-          className="lg:flex-1 lg:max-h-64"
-        />
-        <NewsList title="خبرهای تکنولوژی" moreUrl="/newsList/technologyNews" pagination={false} />
+        <SportNewsListSection />
+        <NewsPosterSection />
+        <LatestNewsListSection />
       </div>
     </div>
   );
