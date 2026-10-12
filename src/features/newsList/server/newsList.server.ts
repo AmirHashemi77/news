@@ -5,16 +5,18 @@ import { getLatestNews, getNewsByCategory, getPopularNews, getPosterNews } from 
 export type GetNewsInput = {
   pageNumber: number;
   pageSize: number;
+  title?: string;
+  fromDate?: string;
+  toDate?: string;
 };
 
-export async function getNewsByCategoryService({ pageNumber, pageSize, categorySlug }: GetNewsInput & { categorySlug: string }) {
+export async function getNewsByCategoryService({ pageNumber, pageSize, categorySlug, fromDate, title, toDate }: GetNewsInput & { categorySlug: string }) {
   const existCategory = await categoryExistsBySlug(categorySlug);
 
   if (!existCategory) {
     return null;
   }
-  const result = await getNewsByCategory({ pageNumber: pageNumber, pageSize: pageSize, categorySlug: categorySlug });
-
+  const result = await getNewsByCategory({ pageNumber: pageNumber, pageSize: pageSize, categorySlug: categorySlug, fromDate: fromDate, title: title, toDate: toDate });
   return {
     pagination: {
       pageNumber: pageNumber,
@@ -27,10 +29,11 @@ export async function getNewsByCategoryService({ pageNumber, pageSize, categoryS
   };
 }
 
-export async function getLatestNewsService({ pageNumber, pageSize }: GetNewsInput) {
+export async function getLatestNewsService({ pageNumber, pageSize, title }: GetNewsInput) {
   const result = await getLatestNews({
     pageNumber: pageNumber,
     pageSize: pageSize,
+    title,
   });
   return {
     pagination: {
@@ -43,10 +46,11 @@ export async function getLatestNewsService({ pageNumber, pageSize }: GetNewsInpu
     newsList: result.newsList,
   };
 }
-export async function getPopularNewsService({ pageNumber, pageSize }: GetNewsInput) {
+export async function getPopularNewsService({ pageNumber, pageSize, title }: GetNewsInput) {
   const result = await getPopularNews({
     pageNumber: pageNumber,
     pageSize: pageSize,
+    title,
   });
   return {
     pagination: {

@@ -54,3 +54,40 @@ export async function incrementNewsViewCount(newsId: string) {
 
   return result.count > 0;
 }
+export async function getNewsComments(newsId: string) {
+  const news = await prisma.news.findUnique({
+    where: {
+      id: newsId,
+    },
+
+    select: {
+      comments: {
+        orderBy: {
+          createdAt: "desc",
+        },
+
+        select: {
+          id: true,
+          commentText: true,
+          createdAt: true,
+
+          author: {
+            select: {
+              id: true,
+              firstName: true,
+              lastName: true,
+            },
+          },
+        },
+      },
+    },
+  });
+
+  if (!news) {
+    return null;
+  }
+
+  return {
+    comments: news.comments,
+  };
+}

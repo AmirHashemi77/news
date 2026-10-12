@@ -8,13 +8,16 @@ interface PropsType {
   searchParams: Promise<{
     pageNumber: string;
     pageSize: string;
+    title: string;
+    toDate: string;
+    fromDate: string;
   }>;
 }
 
 const LatestNewsListPage: FC<PropsType> = async (props) => {
-  const { pageNumber } = await props.searchParams;
+  const { pageNumber, title } = await props.searchParams;
 
-  const newsData = await getLatestNewsService({ pageNumber: pageNumber ? +pageNumber : 1, pageSize: 10 });
+  const newsData = await getLatestNewsService({ pageNumber: pageNumber ? +pageNumber : 1, pageSize: 10, title });
 
   return (
     <div className="flex flex-col items-start gap-5">

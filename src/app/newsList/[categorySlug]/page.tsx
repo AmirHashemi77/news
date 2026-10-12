@@ -12,14 +12,17 @@ interface PropsType {
   searchParams: Promise<{
     pageNumber: string;
     pageSize: string;
+    title: string;
+    toDate: string;
+    fromDate: string;
   }>;
 }
 
 const NewsListByCategory: FC<PropsType> = async (props) => {
   const { categorySlug } = await props.params;
-  const { pageNumber } = await props.searchParams;
+  const { pageNumber, fromDate, title, toDate } = await props.searchParams;
 
-  const newsData = await getNewsByCategoryService({ pageNumber: pageNumber ? +pageNumber : 1, pageSize: 10, categorySlug: categorySlug });
+  const newsData = await getNewsByCategoryService({ pageNumber: pageNumber ? +pageNumber : 1, pageSize: 10, categorySlug: categorySlug, title, fromDate, toDate });
 
   if (!newsData) {
     notFound();

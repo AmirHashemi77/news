@@ -3,15 +3,31 @@ import { prisma } from "@/shared/lib/prisma";
 export type GetNewsInput = {
   pageNumber: number;
   pageSize: number;
+  title?: string;
+  fromDate?: string;
+  toDate?: string;
 };
 
-export async function getLatestNews({ pageNumber = 1, pageSize = 10 }: GetNewsInput) {
+export async function getLatestNews({ pageNumber = 1, pageSize = 10, title }: GetNewsInput) {
   const skip = (pageNumber - 1) * pageSize;
 
   const [totalCount, news] = await Promise.all([
-    prisma.news.count(),
+    prisma.news.count({
+      where: {
+        title: {
+          contains: title,
+          mode: "insensitive",
+        },
+      },
+    }),
 
     prisma.news.findMany({
+      where: {
+        title: {
+          contains: title,
+          mode: "insensitive",
+        },
+      },
       skip,
       take: pageSize,
 
@@ -66,7 +82,7 @@ export async function getLatestNews({ pageNumber = 1, pageSize = 10 }: GetNewsIn
   };
 }
 
-export async function getPopularNews({ pageNumber = 1, pageSize = 10 }: GetNewsInput) {
+export async function getPopularNews({ pageNumber = 1, pageSize = 10, title }: GetNewsInput) {
   const skip = (pageNumber - 1) * pageSize;
 
   const tenDaysAgo = new Date();
@@ -74,6 +90,10 @@ export async function getPopularNews({ pageNumber = 1, pageSize = 10 }: GetNewsI
   const [totalCount, news] = await Promise.all([
     prisma.news.count({
       where: {
+        title: {
+          contains: title,
+          mode: "insensitive",
+        },
         publishDate: {
           gte: tenDaysAgo,
         },
@@ -82,6 +102,10 @@ export async function getPopularNews({ pageNumber = 1, pageSize = 10 }: GetNewsI
 
     prisma.news.findMany({
       where: {
+        title: {
+          contains: title,
+          mode: "insensitive",
+        },
         publishDate: {
           gte: tenDaysAgo,
         },
@@ -201,7 +225,7 @@ export async function getPosterNews() {
   };
 }
 
-export async function getNewsByCategory({ pageNumber = 1, pageSize = 10, categorySlug }: GetNewsInput & { categorySlug: string }) {
+export async function getNewsByCategory({ pageNumber = 1, pageSize = 10, categorySlug, title, fromDate, toDate }: GetNewsInput & { categorySlug: string }) {
   const skip = (pageNumber - 1) * pageSize;
   const [totalCount, news] = await Promise.all([
     prisma.news.count({
@@ -211,6 +235,23 @@ export async function getNewsByCategory({ pageNumber = 1, pageSize = 10, categor
             slug: categorySlug,
           },
         },
+        ...(title
+          ? {
+              title: {
+                contains: title,
+                mode: "insensitive",
+              },
+            }
+          : {}),
+
+        ...(fromDate || toDate
+          ? {
+              publishDate: {
+                ...(fromDate ? { gte: fromDate } : {}),
+                ...(toDate ? { lte: toDate } : {}),
+              },
+            }
+          : {}),
       },
     }),
 
@@ -221,6 +262,23 @@ export async function getNewsByCategory({ pageNumber = 1, pageSize = 10, categor
             slug: categorySlug,
           },
         },
+        ...(title
+          ? {
+              title: {
+                contains: title,
+                mode: "insensitive",
+              },
+            }
+          : {}),
+
+        ...(fromDate || toDate
+          ? {
+              publishDate: {
+                ...(fromDate ? { gte: fromDate } : {}),
+                ...(toDate ? { lte: toDate } : {}),
+              },
+            }
+          : {}),
       },
       orderBy: {
         publishDate: "desc",
