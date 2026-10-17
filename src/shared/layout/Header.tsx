@@ -6,6 +6,8 @@ import SearchAction from "@/shared/action/SearchAction";
 import HeaderMenu from "./HeaderMenu";
 import MobileMenu from "./MobileHeaderMenu";
 import Image from "next/image";
+import { getCurrentUser } from "@/features/user/session/server/session.server";
+import HeaderUserMenu from "./HeaderUserMenu";
 
 const socialMedia = [
   {
@@ -25,7 +27,9 @@ const socialMedia = [
   },
 ];
 
-const Header: FC = () => {
+const Header: FC = async () => {
+  const currentUser = await getCurrentUser();
+
   return (
     <header className="flex flex-col items-start w-full border-b border-gray-400 shadow-lg lg:border-0 lg:shadow-none">
       <div className="p-4 mx-auto max-w-7xl w-full">
@@ -45,6 +49,7 @@ const Header: FC = () => {
             </div>
             <div className="flex items-center gap-4">
               <SearchInput minLength={4} action={SearchAction} />
+              <HeaderUserMenu currentUser={currentUser} />
               <MobileMenu />
             </div>
           </div>

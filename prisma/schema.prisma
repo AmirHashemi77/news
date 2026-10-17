@@ -77,26 +77,7 @@ model Comment {
   @@index([authorId])
 }
 
-model User {
-  id        String @id @default(uuid()) @db.Uuid
-  firstName String
-  lastName  String
-  email     String @unique
 
-  // User comments
-  comments Comment[]
-
-  // Recently viewed news
-  newsViews UserNewsView[]
-
-  // Saved news
-  savedNews News[] @relation("SavedNews")
-
-  lastSignInAt DateTime?
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-}
 
 model UserNewsView {
   id String @id @default(uuid()) @db.Uuid
@@ -142,4 +123,46 @@ model IngestionLog {
   @@index([sourceName, startedAt])
   @@index([status])
   @@index([startedAt])
+}
+enum Gender {
+  MALE
+  FEMALE
+}
+
+model Session {
+  id        String   @id @default(uuid()) @db.Uuid
+
+  tokenHash String   @unique
+
+  userId    String   @db.Uuid
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+  @@index([expiresAt])
+}
+
+model User {
+  id           String @id @default(uuid()) @db.Uuid
+  firstName    String
+  lastName     String
+
+  userName     String @unique
+  phoneNumber  String @unique
+  email        String @unique
+
+  gender       Gender
+  passwordHash String
+
+  comments  Comment[]
+  newsViews UserNewsView[]
+  savedNews News[] @relation("SavedNews")
+
+  lastSignInAt DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  sessions Session[]
 }
