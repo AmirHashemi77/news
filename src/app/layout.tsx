@@ -3,6 +3,7 @@ import "./globals.css";
 import localFont from "next/font/local";
 import Header from "@/shared/layout/Header";
 import Footer from "@/shared/layout/Footer";
+import { Toaster } from "sonner";
 
 const vazir = localFont({
   src: [
@@ -65,6 +66,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="fa" dir="rtl" className={vazir.variable}>
       <body className="min-h-full flex flex-col">
+        <Toaster position="top-center" richColors closeButton duration={4000} visibleToasts={3} />
         <Header />
         <div className="p-4 mx-auto max-w-7xl w-full">{children}</div>
         <Footer />

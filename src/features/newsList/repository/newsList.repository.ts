@@ -165,48 +165,50 @@ export async function getPopularNews({ pageNumber = 1, pageSize = 10, title }: G
 export async function getPosterNews() {
   const fiveDaysAgo = new Date();
   fiveDaysAgo.setDate(fiveDaysAgo.getDate() - 5);
-  const news = await prisma.news.findMany({
-    where: {
-      publishDate: {
-        gte: fiveDaysAgo,
-      },
-      imageUrl: {
-        not: null,
-      },
-      NOT: {
-        imageUrl: "",
-      },
-    },
 
-    orderBy: [
-      {
-        viewCount: "desc",
-      },
-      {
-        publishDate: "desc",
-      },
-    ],
-    take: 4,
-    select: {
-      id: true,
-      title: true,
-      publishDate: true,
-      viewCount: true,
-      imageUrl: true,
-      _count: {
-        select: {
-          comments: true,
+  const findNews = (onlyRecent: boolean) =>
+    prisma.news.findMany({
+      where: {
+        ...(onlyRecent && {
+          publishDate: {
+            gte: fiveDaysAgo,
+          },
+        }),
+        imageUrl: {
+          not: null,
+        },
+        NOT: {
+          imageUrl: "",
         },
       },
-      categories: {
-        select: {
-          id: true,
-          slug: true,
-          name: true,
+      orderBy: [{ viewCount: "desc" }, { publishDate: "desc" }],
+      take: 4,
+      select: {
+        id: true,
+        title: true,
+        publishDate: true,
+        viewCount: true,
+        imageUrl: true,
+        _count: {
+          select: {
+            comments: true,
+          },
+        },
+        categories: {
+          select: {
+            id: true,
+            slug: true,
+            name: true,
+          },
         },
       },
-    },
-  });
+    });
+
+  let news = await findNews(true);
+
+  if (news.length === 0) {
+    news = await findNews(false);
+  }
 
   return {
     newsList: news.map((item) => ({
@@ -216,11 +218,7 @@ export async function getPosterNews() {
       commentCount: item._count.comments,
       imageUrl: item.imageUrl,
       publishDate: item.publishDate,
-      categories: item.categories.map((category) => ({
-        id: category.id,
-        slug: category.slug,
-        name: category.name,
-      })),
+      categories: item.categories,
     })),
   };
 }

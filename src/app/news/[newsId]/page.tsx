@@ -1,5 +1,5 @@
 import NewsDetailsActions from "@/features/newsDetails/components/NewsDetailsActions";
-import CommentsList from "@/shared/components/comments/commentsList";
+import CommentsList from "@/features/comments/component/commentsList";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import { FC, Fragment } from "react";

@@ -4,6 +4,10 @@ import NewsHeroCard from "../NewsHeroCard";
 
 const NewsPosterSection: FC = async () => {
   const newsList = await getPosterNewsService();
+  if (!newsList?.newsList?.length) {
+    console.error("Poster news list is empty or undefined");
+    return null;
+  }
   const newsItem = newsList.newsList[newsList.newsList.length - 1];
   return (
     <NewsHeroCard

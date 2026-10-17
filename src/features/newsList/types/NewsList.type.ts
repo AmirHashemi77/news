@@ -23,6 +23,7 @@ export interface NewsListCountData {
   totalPages: number;
 }
 export interface NewList {
+  category: Category;
   pagination?: NewsListCountData;
   newsList: NewsItem[];
 }

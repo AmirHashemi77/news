@@ -23,8 +23,10 @@ export async function categoryExistsBySlug(slug: string) {
     },
     select: {
       id: true,
+      slug: true,
+      name: true,
     },
   });
 
-  return category !== null;
+  return category;
 }

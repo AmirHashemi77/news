@@ -22,7 +22,7 @@ const LatestNewsListPage: FC<PropsType> = async (props) => {
   return (
     <div className="flex flex-col items-start gap-5">
       <FilteringNews />
-      {newsData && <NewsList newsData={newsData} title="آخرین خبر" pagination={true} moreUrl={null} />}
+      {newsData && <NewsList newsData={newsData} pagination={true} moreUrl={null} />}
     </div>
   );
 };

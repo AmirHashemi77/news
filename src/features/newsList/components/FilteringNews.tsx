@@ -44,16 +44,18 @@ const FilteringNews: FC = () => {
   };
 
   return (
-    <form className="flex flex-col items-start gap-3 w-full" onSubmit={handleSubmit(onSubmit)}>
-      <div className="flex flex-row items-center gap-5 w-full flex-wrap md:flex-nowrap ">
-        <TextInput {...register("title")} name="title" label="عنوان" error={errors.title?.message} />
-        <FormDateInput label=" از تاریخ" control={control} name="fromDate" />
-        <FormDateInput label=" تا تاریخ" control={control} name="toDate" />
-      </div>
-      <button className="self-end px-3 py-2 flex- items-center justify-center bg-foreground text-background rounded-md cursor-pointer" type="submit">
-        {isSubmitting ? "صبر کنید ..." : "جستجو"}
-      </button>
-    </form>
+    <>
+      <form className="flex flex-col items-start gap-3 w-full" onSubmit={handleSubmit(onSubmit)}>
+        <div className="flex flex-row items-center gap-5 w-full flex-wrap md:flex-nowrap ">
+          <TextInput {...register("title")} name="title" label="عنوان" error={errors.title?.message} />
+          <FormDateInput label=" از تاریخ" control={control} name="fromDate" />
+          <FormDateInput label=" تا تاریخ" control={control} name="toDate" />
+        </div>
+        <button className="self-end px-3 py-2 flex- items-center justify-center bg-foreground text-background rounded-md cursor-pointer" type="submit">
+          {isSubmitting ? "صبر کنید ..." : "جستجو"}
+        </button>
+      </form>
+    </>
   );
 };
 export default FilteringNews;

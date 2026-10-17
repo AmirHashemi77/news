@@ -10,41 +10,44 @@ type NewsListProps =
   | {
       pagination: false;
       className?: string;
-      title: string;
+
       moreUrl: string;
       newsData: NewList;
     }
   | {
       pagination: true;
       className?: string;
-      title: string;
+
       moreUrl: null;
       newsData: NewList;
     };
 
-const NewsList: FC<NewsListProps> = async ({ className, title, moreUrl, pagination, newsData }) => {
+const NewsList: FC<NewsListProps> = async ({ className, moreUrl, pagination, newsData }) => {
   return (
     <section className={cn("flex w-full flex-col items-center gap-3", className)}>
       <div className="flex w-full items-center border-b border-gray-200 mt-3" dir="rtl">
-        <h2 className="border-r-4 border-foreground pr-3 text-lg font-bold text-gray-900 md:text-xl">{title}</h2>
+        {newsData.pagination && newsData.pagination.totalCount > 0 && <h2 className="border-r-4 border-foreground pr-3 text-lg font-bold text-gray-900 md:text-xl">{newsData.category.name}</h2>}
       </div>
 
-      <div className="flex w-full flex-col items-center gap-2">
-        {newsData.newsList.map((item) => {
-          return (
-            <NewsCard
-              commentCount={item.commentCount}
-              subtitle={item.subtitle}
-              id={item.id}
-              imageUrl={item.imageUrl}
-              title={item.title}
-              categories={item.categories}
-              publishDate={item.publishDate}
-              key={item.id}
-            />
-          );
-        })}
-      </div>
+      {newsData.pagination && newsData.pagination.totalCount > 0 && (
+        <div className="flex w-full flex-col items-center gap-2">
+          {newsData.newsList.map((item) => {
+            return (
+              <NewsCard
+                commentCount={item.commentCount}
+                subtitle={item.subtitle}
+                id={item.id}
+                imageUrl={item.imageUrl}
+                title={item.title}
+                categories={item.categories}
+                publishDate={item.publishDate}
+                key={item.id}
+              />
+            );
+          })}
+        </div>
+      )}
+      {newsData.pagination && newsData.pagination.totalCount === 0 && <p className="text-center h-screen">خبری برای نمایش پیدا نشد</p>}
 
       {!pagination && moreUrl && (
         <div className="flex w-full justify-end border-t border-gray-200 pt-3" dir="rtl">
@@ -55,7 +58,7 @@ const NewsList: FC<NewsListProps> = async ({ className, title, moreUrl, paginati
         </div>
       )}
 
-      {pagination && !moreUrl && <Pagination totalPages={newsData.pagination?.totalPages ? newsData.pagination?.totalPages : 1} />}
+      {newsData.pagination && newsData.pagination?.totalPages >= 1 && pagination && !moreUrl && <Pagination totalPages={newsData.pagination?.totalPages} />}
     </section>
   );
 };

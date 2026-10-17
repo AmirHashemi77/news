@@ -18,6 +18,7 @@ export async function getNewsByCategoryService({ pageNumber, pageSize, categoryS
   }
   const result = await getNewsByCategory({ pageNumber: pageNumber, pageSize: pageSize, categorySlug: categorySlug, fromDate: fromDate, title: title, toDate: toDate });
   return {
+    category: existCategory,
     pagination: {
       pageNumber: pageNumber,
       pageSize: pageSize,
@@ -36,6 +37,11 @@ export async function getLatestNewsService({ pageNumber, pageSize, title }: GetN
     title,
   });
   return {
+    category: {
+      id: "latestNews",
+      slug: "/latestNews",
+      name: "آخرین خبر",
+    },
     pagination: {
       pageNumber: pageNumber,
       pageSize: pageSize,
@@ -53,6 +59,11 @@ export async function getPopularNewsService({ pageNumber, pageSize, title }: Get
     title,
   });
   return {
+    category: {
+      id: "popularNews",
+      slug: "/popularNews",
+      name: "اخبار منتخب",
+    },
     pagination: {
       pageNumber: pageNumber,
       pageSize: pageSize,
@@ -65,6 +76,7 @@ export async function getPopularNewsService({ pageNumber, pageSize, title }: Get
 }
 export async function getPosterNewsService() {
   const result = await getPosterNews();
+
   return {
     newsList: result.newsList,
   };

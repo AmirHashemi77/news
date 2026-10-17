@@ -5,6 +5,6 @@ import { getPopularNewsService } from "../../server/newsList.server";
 const PopularNewsListSection: FC = async () => {
   const newsData = await getPopularNewsService({ pageNumber: 1, pageSize: 10 });
 
-  return <NewsList newsData={newsData} title="اخبار منتخب" moreUrl="/newsList/popularNews" pagination={false} />;
+  return <NewsList newsData={newsData} moreUrl="/newsList/popularNews" pagination={false} />;
 };
 export default PopularNewsListSection;
