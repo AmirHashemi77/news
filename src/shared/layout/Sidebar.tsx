@@ -51,8 +51,8 @@ const menuList = [
   },
   {
     id: "contactUs",
-    title: "ارتباط با ما",
-    href: "/",
+    title: "درباره ما",
+    href: "/aboutus",
     icon: FiMail,
   },
 ];
@@ -132,13 +132,7 @@ export default function Sidebar({ isOpen, setIsOpen, currentUser, logo }: Sideba
           <div className="flex items-center">{logo ?? <span className="text-xl font-bold">LOGO</span>}</div>
 
           {/* Close button */}
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={handleClose}
-            aria-label="بستن منو"
-            className="rounded-full"
-          >
+          <Button variant="ghost" size="icon" onClick={handleClose} aria-label="بستن منو" className="rounded-full">
             <FiX className="size-6" />
           </Button>
         </div>

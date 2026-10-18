@@ -29,8 +29,8 @@ const menuList = [
   },
   {
     id: "contactUs",
-    title: "ارتباط با ما",
-    href: "/",
+    title: "درباره ما",
+    href: "/aboutus",
   },
 ];
 
