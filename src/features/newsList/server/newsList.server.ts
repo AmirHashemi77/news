@@ -1,14 +1,7 @@
 import "server-only";
 import { categoryExistsBySlug } from "@/features/category/repository/category.repository";
 import { getLatestNews, getNewsByCategory, getPopularNews, getPosterNews } from "../repository/newsList.repository";
-
-export type GetNewsInput = {
-  pageNumber: number;
-  pageSize: number;
-  title?: string;
-  fromDate?: string;
-  toDate?: string;
-};
+import { GetNewsInput } from "../types/NewsList.type";
 
 export async function getNewsByCategoryService({ pageNumber, pageSize, categorySlug, fromDate, title, toDate }: GetNewsInput & { categorySlug: string }) {
   const existCategory = await categoryExistsBySlug(categorySlug);

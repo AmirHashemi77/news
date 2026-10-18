@@ -10,4 +10,4 @@ export const newsQuerySchema = z.object({
   toDate: z.coerce.date().optional(),
 });
 
-export type LatestNewsQuery = z.infer<typeof newsQuerySchema>;
+export type NewsQuery = z.infer<typeof newsQuerySchema>;

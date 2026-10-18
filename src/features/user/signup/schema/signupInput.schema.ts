@@ -13,7 +13,7 @@ export const signupInputSchema = z
       .trim()
       .regex(/^09\d{9}$/, "شماره موبایل معتبر نیست"),
 
-    gender: z.enum(["male", "female"], {
+    gender: z.enum(["MALE", "FEMALE"], {
       message: "جنسیت را انتخاب کنید",
     }),
 

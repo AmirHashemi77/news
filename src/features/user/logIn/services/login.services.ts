@@ -2,10 +2,7 @@ import "server-only";
 
 import bcrypt from "bcryptjs";
 import { loginUser } from "../repository/login.repository";
-import * as z from "zod";
-import { loginInputSchema } from "../schema/loginInput.schema";
-
-export type LoginInput = z.infer<typeof loginInputSchema>;
+import { LoginInput } from "../schema/loginInput.schema";
 
 export async function loginUserServices(input: LoginInput) {
   const user = await loginUser(input.identifier);

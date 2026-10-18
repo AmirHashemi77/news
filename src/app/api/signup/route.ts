@@ -1,5 +1,5 @@
 import { signupInputSchema } from "@/features/user/signup/schema/signupInput.schema";
-import { signupUserServices } from "@/features/user/signup/services/signup.service";
+import { signupUserServices } from "@/features/user/signup/server/signup.server";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {

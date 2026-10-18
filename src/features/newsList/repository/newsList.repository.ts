@@ -1,12 +1,5 @@
 import { prisma } from "@/shared/lib/prisma";
-
-export type GetNewsInput = {
-  pageNumber: number;
-  pageSize: number;
-  title?: string;
-  fromDate?: string;
-  toDate?: string;
-};
+import { GetNewsInput } from "../types/NewsList.type";
 
 export async function getLatestNews({ pageNumber = 1, pageSize = 10, title }: GetNewsInput) {
   const skip = (pageNumber - 1) * pageSize;

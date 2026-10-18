@@ -12,6 +12,7 @@ import { SignupInput, signupInputSchema } from "@/features/user/signup/schema/si
 import TextInput from "@/shared/ui/Input/TextInput";
 import { fetchData } from "@/shared/api/fetchData";
 import { Gender } from "@/generated/prisma/enums";
+import { toast } from "sonner";
 
 interface ErrorType {
   status: string;
@@ -73,9 +74,12 @@ const Signup: FC = () => {
         }
       }
     } catch (error) {
-      console.log("===================================================");
-      console.log(error);
-      console.log("===================================================");
+      {
+        console.log("===================================================");
+        console.error("Signup request failed:", error);
+        console.log("===================================================");
+        toast.error("ارتباط با سرور برقرار نشد. لطفاً اتصال اینترنت خود را بررسی و دوباره تلاش کنید.");
+      }
     }
   };
 
@@ -224,9 +228,9 @@ const Signup: FC = () => {
                       انتخاب جنسیت
                     </option>
 
-                    <option value="male">مرد</option>
+                    <option value="MALE">مرد</option>
 
-                    <option value="female">زن</option>
+                    <option value="FEMALE">زن</option>
                   </select>
                 </div>
 

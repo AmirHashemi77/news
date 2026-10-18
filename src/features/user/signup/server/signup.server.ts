@@ -1,7 +1,8 @@
 import { CreateUserInput } from "../types/signup.type";
 import { findUserByUniqueFields, signupUser } from "../repository/signup.repository";
 import bcrypt from "bcryptjs";
-export async function signupUserServices(input: Omit<CreateUserInput, "passwordHash" | "gender"> & { password: string; gender: "male" | "female" }) {
+
+export async function signupUserServices(input: Omit<CreateUserInput, "passwordHash"> & { password: string }) {
   const existingUser = await findUserByUniqueFields({
     email: input.email,
     phoneNumber: input.phoneNumber,
@@ -36,7 +37,7 @@ export async function signupUserServices(input: Omit<CreateUserInput, "passwordH
     userName: input.userName,
     email: input.email,
     phoneNumber: input.phoneNumber,
-    gender: input.gender === "male" ? "MALE" : "FEMALE",
+    gender: input.gender,
     passwordHash,
   });
 

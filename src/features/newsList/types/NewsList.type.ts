@@ -1,3 +1,11 @@
+export type GetNewsInput = {
+  pageNumber: number;
+  pageSize: number;
+  title?: string;
+  fromDate?: string;
+  toDate?: string;
+};
+
 export interface NewsItem {
   id: string;
   title: string;
