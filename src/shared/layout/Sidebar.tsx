@@ -28,7 +28,7 @@ const menuList = [
   {
     id: "lastNews",
     title: "آخرین اخبار",
-    href: "/",
+    href: "/newsList/latestNews",
     icon: FiClock,
   },
   {
@@ -37,18 +37,18 @@ const menuList = [
     href: "/categoryList",
     icon: FiGrid,
   },
-  {
-    id: "short",
-    title: "خبر های کوتاه",
-    href: "/",
-    icon: FiZap,
-  },
-  {
-    id: "weather",
-    title: "آب و هوا",
-    href: "/",
-    icon: FiCloud,
-  },
+  // {
+  //   id: "short",
+  //   title: "خبر های کوتاه",
+  //   href: "/",
+  //   icon: FiZap,
+  // },
+  // {
+  //   id: "weather",
+  //   title: "آب و هوا",
+  //   href: "/",
+  //   icon: FiCloud,
+  // },
   {
     id: "contactUs",
     title: "درباره ما",

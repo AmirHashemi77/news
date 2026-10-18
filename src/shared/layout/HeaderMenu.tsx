@@ -10,23 +10,23 @@ const menuList = [
   {
     id: "lastNews",
     title: "آخرین اخبار",
-    href: "/",
+    href: "/newsList/latestNews",
   },
   {
     id: "sdastebandt",
     title: "دسته بندی",
     href: "/categoryList",
   },
-  {
-    id: "short",
-    title: "خبر های کوتاه",
-    href: "/",
-  },
-  {
-    id: "weather",
-    title: "آب و هوا",
-    href: "/",
-  },
+  // {
+  //   id: "short",
+  //   title: "خبر های کوتاه",
+  //   href: "/",
+  // },
+  // {
+  //   id: "weather",
+  //   title: "آب و هوا",
+  //   href: "/",
+  // },
   {
     id: "contactUs",
     title: "درباره ما",

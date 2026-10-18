@@ -2,7 +2,6 @@ import Link from "next/link";
 import { FC } from "react";
 import { FaInstagram, FaLinkedin, FaTelegram } from "react-icons/fa";
 import { SearchInput } from "./SearchInput";
-import SearchAction from "@/shared/action/SearchAction";
 import HeaderMenu from "./HeaderMenu";
 import MobileMenu from "./MobileHeaderMenu";
 import Image from "next/image";
@@ -48,7 +47,7 @@ const Header: FC = async () => {
               ))}
             </div>
             <div className="flex items-center gap-4">
-              <SearchInput minLength={4} action={SearchAction} />
+              <SearchInput minLength={4} />
               <HeaderUserMenu currentUser={currentUser} />
               <MobileMenu currentUser={currentUser} />
             </div>

@@ -2,14 +2,14 @@ import { cn } from "@/shared/lib/cn";
 import Image from "next/image";
 import Link from "next/link";
 
-import { FiCalendar, FiMessageCircle } from "react-icons/fi";
+import { FiCalendar, FiImage, FiMessageCircle } from "react-icons/fi";
 import { NewsItem } from "../types/NewsList.type";
 import { formatPersianDate } from "@/shared/lib/formatDate";
 
 export default function NewsCard({ id, title, subtitle, commentCount, imageUrl, categories, publishDate, className }: Omit<NewsItem, "viewCount"> & { className?: string }) {
   return (
     <Link
-      href={`news/${id}`}
+      href={`/news/${id}`}
       data-id={id}
       className={cn(
         `
@@ -39,19 +39,25 @@ export default function NewsCard({ id, title, subtitle, commentCount, imageUrl, 
           rounded-lg
         "
       >
-        <Image
-          src={imageUrl ? imageUrl : ""}
-          alt={title}
-          fill
-          sizes="150px"
-          className="
-            object-cover
-            transition-transform
-            duration-500
-            ease-in-out
-            group-hover:scale-105
-          "
-        />
+        {imageUrl ? (
+          <Image
+            src={imageUrl}
+            alt={title}
+            fill
+            sizes="150px"
+            className="
+              object-cover
+              transition-transform
+              duration-500
+              ease-in-out
+              group-hover:scale-105
+            "
+          />
+        ) : (
+          <div className="flex h-full w-full items-center justify-center bg-gray-100 text-gray-400" aria-hidden="true">
+            <FiImage className="size-8" />
+          </div>
+        )}
       </div>
 
       {/* Content */}
