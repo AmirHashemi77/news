@@ -6,6 +6,7 @@ import { useForm } from "react-hook-form";
 import { filterSchema, filterType } from "../schemas/filterSchema";
 import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Button } from "@/shared/ui/button";
 
 const FilteringNews: FC = () => {
   const router = useRouter();
@@ -51,9 +52,9 @@ const FilteringNews: FC = () => {
           <FormDateInput label=" از تاریخ" control={control} name="fromDate" />
           <FormDateInput label=" تا تاریخ" control={control} name="toDate" />
         </div>
-        <button className="self-end px-3 py-2 flex- items-center justify-center bg-foreground text-background rounded-md cursor-pointer" type="submit">
-          {isSubmitting ? "صبر کنید ..." : "جستجو"}
-        </button>
+        <Button className="self-end" type="submit" size="sm" isLoading={isSubmitting} loadingText="صبر کنید ...">
+          جستجو
+        </Button>
       </form>
     </>
   );

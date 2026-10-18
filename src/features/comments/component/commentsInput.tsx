@@ -6,6 +6,7 @@ import { createCommentAction } from "../action/comment.action";
 import Link from "next/link";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import { Button } from "@/shared/ui/button";
 
 interface CommentsInputProps {
   articleId: string;
@@ -77,14 +78,17 @@ export default function CommentsInput({ articleId }: CommentsInputProps) {
           maxLength={500}
           className="min-h-24 w-full resize-y rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 text-sm leading-6 text-gray-900 outline-none transition-colors placeholder:text-gray-400 focus:border-gray-400 focus:bg-white focus:ring-2 focus:ring-gray-100"
         />
-        <button
+        <Button
           type="submit"
+          size="lg"
           disabled={!text.trim()}
-          className="inline-flex h-11 shrink-0 items-center justify-center gap-2 rounded-xl bg-gray-900 px-5 text-sm font-medium text-white transition-colors hover:bg-gray-700 disabled:cursor-not-allowed disabled:bg-gray-300"
+          isLoading={isSubmitting}
+          loadingText="در حال ارسال..."
+          className="rounded-xl"
         >
           <FiSend className="size-4" aria-hidden="true" />
-          {isSubmitting ? "در حال ارسال..." : "ارسال نظر"}
-        </button>
+          ارسال نظر
+        </Button>
       </div>
       {error && (
         <div id="comment-error" role="alert" className="mt-2 text-sm text-red-600">

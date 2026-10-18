@@ -9,6 +9,7 @@ import { FiHome, FiClock, FiGrid, FiZap, FiCloud, FiMail, FiX } from "react-icon
 import { FaInstagram, FaLinkedin, FaTelegram } from "react-icons/fa";
 import type { CurrentUser } from "@/features/user/session/types/session.type";
 import SidebarUserMenu from "./SidebarUserMenu";
+import { Button } from "@/shared/ui/button";
 
 interface SidebarProps {
   isOpen: boolean;
@@ -82,8 +83,9 @@ export default function Sidebar({ isOpen, setIsOpen, currentUser, logo }: Sideba
   return (
     <div className="lg:hidden">
       {/* Backdrop */}
-      <button
-        type="button"
+      <Button
+        variant="unstyled"
+        size="none"
         aria-label="Close button"
         onClick={handleClose}
         className={`
@@ -130,23 +132,15 @@ export default function Sidebar({ isOpen, setIsOpen, currentUser, logo }: Sideba
           <div className="flex items-center">{logo ?? <span className="text-xl font-bold">LOGO</span>}</div>
 
           {/* Close button */}
-          <button
-            type="button"
+          <Button
+            variant="ghost"
+            size="icon"
             onClick={handleClose}
             aria-label="بستن منو"
-            className="
-              flex size-10
-              items-center
-              justify-center
-              rounded-full
-              text-gray-600
-              transition-colors
-              hover:bg-gray-100
-              hover:text-gray-950
-            "
+            className="rounded-full"
           >
             <FiX className="size-6" />
-          </button>
+          </Button>
         </div>
 
         {/* Navigation */}

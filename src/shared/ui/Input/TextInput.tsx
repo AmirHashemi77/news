@@ -46,7 +46,7 @@ const TextInput: FC<PropsType> = ({ placeholder, className, name, label, id, err
           {...props}
         />
 
-        {endIcon && <div className="absolute left-3 top-1/2 flex -translate-y-1/2 items-center">{endIcon}</div>}
+        {endIcon && <div className="absolute left-1 top-1/2 flex -translate-y-1/2 items-center">{endIcon}</div>}
       </div>
 
       <div className="min-h-6 px-1">

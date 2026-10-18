@@ -1,10 +1,10 @@
 "use client";
 
-import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { FiChevronDown, FiLogIn, FiLogOut, FiUser } from "react-icons/fi";
 import { useLogout } from "@/features/user/session/hooks/useLogout";
 import type { CurrentUser } from "@/features/user/session/types/session.type";
+import { Button, ButtonLink } from "@/shared/ui/button";
 
 interface HeaderUserMenuProps {
   currentUser: CurrentUser | null;
@@ -40,18 +40,13 @@ export default function HeaderUserMenu({ currentUser }: HeaderUserMenuProps) {
 
   if (!currentUser) {
     return (
-      <Link
+      <ButtonLink
         href="/login"
-        className="
-          hidden h-10 shrink-0 items-center justify-center gap-2 lg:inline-flex
-          rounded-lg bg-foreground px-3
-          text-sm font-medium text-background
-          shadow-sm transition-opacity hover:opacity-90
-        "
+        className="hidden px-3 shadow-sm lg:inline-flex"
       >
         <FiLogIn className="size-4" />
         <span>ورود</span>
-      </Link>
+      </ButtonLink>
     );
   }
 
@@ -59,25 +54,20 @@ export default function HeaderUserMenu({ currentUser }: HeaderUserMenuProps) {
 
   return (
     <div ref={menuRef} className="relative hidden shrink-0 lg:block">
-      <button
-        type="button"
+      <Button
+        variant="outline"
         onClick={() => setIsOpen((previous) => !previous)}
         aria-expanded={isOpen}
         aria-haspopup="menu"
         aria-label="منوی حساب کاربری"
-        className="
-          inline-flex h-10 max-w-44 items-center justify-center gap-2
-          rounded-lg border border-gray-200 bg-white px-3
-          text-sm font-medium text-foreground shadow-sm
-          transition-colors hover:bg-gray-50
-        "
+        className="max-w-44 px-3"
       >
         <FiUser className="size-5 shrink-0 text-icon" />
 
         <span className="truncate">{fullName}</span>
 
         <FiChevronDown className={`size-4 shrink-0 transition-transform ${isOpen ? "rotate-180" : ""}`} />
-      </button>
+      </Button>
 
       {isOpen && (
         <div
@@ -98,36 +88,31 @@ export default function HeaderUserMenu({ currentUser }: HeaderUserMenuProps) {
           </div>
 
           <div className="p-2">
-            <Link
+            <ButtonLink
+              variant="ghost"
+              fullWidth
               href="/profile"
               role="menuitem"
               onClick={() => setIsOpen(false)}
-              className="
-                flex items-center gap-3 rounded-lg px-3 py-2.5
-                text-sm text-gray-700 transition-colors
-                hover:bg-gray-100 hover:text-foreground
-              "
+              className="justify-start gap-3 px-3 font-normal"
             >
               <FiUser className="size-4" />
               <span>پروفایل کاربری</span>
-            </Link>
+            </ButtonLink>
 
-            <button
-              type="button"
+            <Button
+              variant="danger"
+              fullWidth
               role="menuitem"
               onClick={handleLogout}
-              disabled={isLoggingOut}
-              className="
-                flex w-full items-center gap-3 rounded-lg px-3 py-2.5
-                text-sm text-red-600 transition-colors
-                hover:bg-red-50
-                disabled:cursor-not-allowed disabled:opacity-60
-              "
+              isLoading={isLoggingOut}
+              loadingText="در حال خروج ..."
+              className="justify-start gap-3 px-3 font-normal"
             >
               <FiLogOut className="size-4" />
 
-              <span>{isLoggingOut ? "در حال خروج ..." : "خروج از حساب"}</span>
-            </button>
+              <span>خروج از حساب</span>
+            </Button>
           </div>
         </div>
       )}

@@ -1,9 +1,9 @@
 "use client";
 
-import Link from "next/link";
 import { FiLogIn, FiLogOut, FiUser } from "react-icons/fi";
 import { useLogout } from "@/features/user/session/hooks/useLogout";
 import type { CurrentUser } from "@/features/user/session/types/session.type";
+import { Button, ButtonLink } from "@/shared/ui/button";
 
 interface SidebarUserMenuProps {
   currentUser: CurrentUser | null;
@@ -16,14 +16,15 @@ export default function SidebarUserMenu({ currentUser, onClose }: SidebarUserMen
   if (!currentUser) {
     return (
       <div className="mb-5 border-b border-gray-100 pb-5">
-        <Link
+        <ButtonLink
           href="/login"
+          size="lg"
+          fullWidth
           onClick={onClose}
-          className="flex items-center justify-center gap-2 rounded-lg bg-foreground px-4 py-3 text-sm font-medium text-background transition-opacity hover:opacity-90"
         >
           <FiLogIn className="size-5 shrink-0" />
           <span>ورود</span>
-        </Link>
+        </ButtonLink>
       </div>
     );
   }
@@ -44,24 +45,30 @@ export default function SidebarUserMenu({ currentUser, onClose }: SidebarUserMen
         </div>
       </div>
 
-      <Link
+      <ButtonLink
+        variant="ghost"
+        size="lg"
+        fullWidth
         href="/profile"
         onClick={onClose}
-        className="flex items-center gap-3 rounded-lg px-4 py-3 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-100 hover:text-gray-950"
+        className="justify-start gap-3 px-4"
       >
         <FiUser className="size-5 shrink-0" />
         <span>پروفایل کاربری</span>
-      </Link>
+      </ButtonLink>
 
-      <button
-        type="button"
+      <Button
+        variant="danger"
+        size="lg"
+        fullWidth
         onClick={handleLogout}
-        disabled={isLoggingOut}
-        className="flex w-full items-center gap-3 rounded-lg px-4 py-3 text-sm font-medium text-red-600 transition-colors hover:bg-red-50 disabled:cursor-not-allowed disabled:opacity-60"
+        isLoading={isLoggingOut}
+        loadingText="در حال خروج ..."
+        className="justify-start gap-3 px-4"
       >
         <FiLogOut className="size-5 shrink-0" />
-        <span>{isLoggingOut ? "در حال خروج ..." : "خروج از حساب"}</span>
-      </button>
+        <span>خروج از حساب</span>
+      </Button>
     </section>
   );
 }

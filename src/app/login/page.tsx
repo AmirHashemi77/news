@@ -7,6 +7,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { FiAtSign, FiEye, FiEyeOff, FiLock, FiLogIn, FiUser } from "react-icons/fi";
 
 import TextInput from "@/shared/ui/Input/TextInput";
+import { Button } from "@/shared/ui/button";
 import { LoginInput, loginInputSchema } from "@/features/user/logIn/schema/loginInput.schema";
 import { fetchData } from "@/shared/api/fetchData";
 import { useRouter } from "next/navigation";
@@ -135,14 +136,16 @@ const Login: FC = () => {
               dir="ltr"
               startIcon={<FiLock className="size-4" />}
               endIcon={
-                <button
-                  type="button"
+                <Button
+                  variant="ghost"
+                  size="icon-sm"
                   onClick={() => setShowPassword((prev) => !prev)}
-                  className="cursor-pointer text-gray-400 transition hover:text-gray-700"
+                  className="text-gray-400"
                   aria-label={showPassword ? "مخفی کردن رمز عبور" : "نمایش رمز عبور"}
+                  aria-pressed={showPassword}
                 >
                   {showPassword ? <FiEyeOff className="size-4" /> : <FiEye className="size-4" />}
-                </button>
+                </Button>
               }
               error={errors.password?.message}
               aria-invalid={!!errors.password}
@@ -163,15 +166,18 @@ const Login: FC = () => {
                 {errors.root.credentials.message}
               </p>
             )}
-            <button
+            <Button
               type="submit"
-              disabled={isSubmitting}
-              className="flex min-h-11 w-full cursor-pointer items-center justify-center gap-2 rounded-lg bg-foreground px-5 py-2 text-sm font-medium text-background transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60 sm:self-end md:w-auto md:min-w-36"
+              size="lg"
+              fullWidth
+              isLoading={isSubmitting}
+              loadingText="در حال ورود ..."
+              className="sm:self-end md:w-auto md:min-w-36"
             >
               <FiLogIn className="size-4" />
 
-              <span>{isSubmitting ? "در حال ورود ..." : "ورود"}</span>
-            </button>
+              <span>ورود</span>
+            </Button>
           </form>
         </section>
       </div>

@@ -4,9 +4,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { FiBookmark, FiChevronLeft, FiMoreVertical } from "react-icons/fi";
 import { cn } from "@/shared/lib/cn";
-
-const buttonClassName =
-  "flex size-11 shrink-0 items-center justify-center rounded-full bg-black/25 text-white backdrop-blur-md transition-colors hover:bg-black/45 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white";
+import { Button } from "@/shared/ui/button";
 
 export default function NewsDetailsActions() {
   const router = useRouter();
@@ -24,22 +22,23 @@ export default function NewsDetailsActions() {
     <nav aria-label="عملیات خبر" className="flex items-center justify-between gap-4">
       <div className="flex items-center gap-2">
         {/* Menu behavior will be added when its actions are defined. */}
-        <button type="button" disabled aria-label="منوی خبر (به‌زودی)" className={cn(buttonClassName, "cursor-default disabled:hover:bg-black/25")}>
+        <Button variant="overlay" size="icon-lg" disabled aria-label="منوی خبر (به‌زودی)">
           <FiMoreVertical className="size-5" aria-hidden="true" />
-        </button>
-        <button
-          type="button"
+        </Button>
+        <Button
+          variant="overlay"
+          size="icon-lg"
           onClick={() => setIsSaved((saved) => !saved)}
           aria-label={isSaved ? "حذف خبر از ذخیره‌ها" : "ذخیره خبر"}
           aria-pressed={isSaved}
-          className={cn(buttonClassName, isSaved && "bg-white/30")}
+          className={cn(isSaved && "bg-white/30")}
         >
           <FiBookmark className={cn("size-5", isSaved && "fill-white")} aria-hidden="true" />
-        </button>
+        </Button>
       </div>
-      <button type="button" onClick={goBack} aria-label="بازگشت" className={buttonClassName}>
+      <Button variant="overlay" size="icon-lg" onClick={goBack} aria-label="بازگشت">
         <FiChevronLeft className="size-5" aria-hidden="true" />
-      </button>
+      </Button>
 
       <span role="status" className="sr-only">
         {isSaved ? "خبر در این صفحه ذخیره شد" : ""}

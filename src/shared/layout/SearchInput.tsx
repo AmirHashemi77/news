@@ -3,6 +3,7 @@
 import { FormEvent, KeyboardEvent, useRef, useState } from "react";
 
 import { FiSearch } from "react-icons/fi";
+import { Button } from "@/shared/ui/button";
 
 interface SearchInputProps {
   action: (formData: FormData) => void | Promise<void>;
@@ -61,8 +62,9 @@ export function SearchInput({ action, placeholder = "جستجو...", minLength =
     <>
       {/* Backdrop */}
       {isOpen && (
-        <button
-          type="button"
+        <Button
+          variant="unstyled"
+          size="none"
           aria-label="Close search"
           onClick={() => setIsOpen(false)}
           className="
@@ -107,19 +109,15 @@ export function SearchInput({ action, placeholder = "جستجو...", minLength =
               `}
             />
 
-            <button
-              type="button"
+            <Button
+              variant="ghost"
+              size="icon"
               onClick={handleMobileSearchButton}
               aria-label="Search"
-              className="
-                flex size-10 shrink-0
-                items-center justify-center
-                transition-colors duration-200
-                hover:bg-gray-100
-              "
+              className="rounded-none"
             >
               <FiSearch className="size-5 text-icon hover:text-icon-hover" />
-            </button>
+            </Button>
           </div>
         </div>
 
@@ -148,23 +146,16 @@ export function SearchInput({ action, placeholder = "جستجو...", minLength =
             "
           />
 
-          <button
+          <Button
             type="submit"
+            variant="ghost"
+            size="icon"
             disabled={!canSearch}
             aria-label="Search"
-            className="
-              flex h-full w-11 shrink-0
-              items-center justify-center
-              transition-colors duration-200
-              hover:bg-gray-100
-              cursor-pointer
-              disabled:cursor-not-allowed
-              disabled:opacity-40
-              
-            "
+            className="h-full w-11 rounded-none"
           >
             <FiSearch className="size-4 text-icon hover:text-icon-hover" />
-          </button>
+          </Button>
         </div>
       </form>
     </>

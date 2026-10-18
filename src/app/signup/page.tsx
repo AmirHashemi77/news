@@ -10,6 +10,8 @@ import { FiAtSign, FiCheckCircle, FiEye, FiEyeOff, FiLock, FiLogIn, FiMail, FiPh
 import { SignupInput, signupInputSchema } from "@/features/user/signup/schema/signupInput.schema";
 
 import TextInput from "@/shared/ui/Input/TextInput";
+import { Button } from "@/shared/ui/button";
+import { SelectBox } from "@/shared/ui/selectbox";
 import { fetchData } from "@/shared/api/fetchData";
 import { Gender } from "@/generated/prisma/enums";
 import { toast } from "sonner";
@@ -209,33 +211,17 @@ const Signup: FC = () => {
               </div>
 
               {/* جنسیت */}
-              <div className="flex w-full min-w-0 flex-col gap-1">
-                <label htmlFor="gender" className="pr-1 text-sm font-medium leading-6 text-gray-700">
-                  جنسیت
-                </label>
-
-                <div className="relative">
-                  <FiUsers className="pointer-events-none absolute right-3 top-1/2 size-4 -translate-y-1/2 text-gray-400" />
-
-                  <select
-                    id="gender"
-                    defaultValue=""
-                    aria-invalid={!!errors.gender}
-                    {...register("gender")}
-                    className="h-10 w-full appearance-none rounded-lg border border-gray-200 bg-white pr-10 pl-3 text-sm text-foreground shadow-sm outline-none transition hover:border-gray-300 focus:border-gray-400 focus:ring-2 focus:ring-gray-200 aria-invalid:border-red-400 aria-invalid:focus:ring-red-100"
-                  >
-                    <option value="" disabled>
-                      انتخاب جنسیت
-                    </option>
-
-                    <option value="MALE">مرد</option>
-
-                    <option value="FEMALE">زن</option>
-                  </select>
-                </div>
-
-                <div className="min-h-6 px-1">{errors.gender?.message && <span className="text-xs text-red-500">{errors.gender.message}</span>}</div>
-              </div>
+              <SelectBox
+                label="جنسیت"
+                placeholder="انتخاب جنسیت"
+                startIcon={<FiUsers className="size-4" />}
+                options={[
+                  { value: "MALE", label: "مرد" },
+                  { value: "FEMALE", label: "زن" },
+                ]}
+                error={errors.gender?.message}
+                {...register("gender")}
+              />
 
               <div className="hidden md:block" />
 
@@ -248,14 +234,16 @@ const Signup: FC = () => {
                 autoComplete="new-password"
                 startIcon={<FiLock className="size-4" />}
                 endIcon={
-                  <button
-                    type="button"
+                  <Button
+                    variant="ghost"
+                    size="icon-sm"
                     onClick={() => setShowPassword((prev) => !prev)}
-                    className="cursor-pointer text-gray-400 transition hover:text-gray-700"
+                    className="text-gray-400"
                     aria-label={showPassword ? "مخفی کردن رمز عبور" : "نمایش رمز عبور"}
+                    aria-pressed={showPassword}
                   >
                     {showPassword ? <FiEyeOff className="size-4" /> : <FiEye className="size-4" />}
-                  </button>
+                  </Button>
                 }
                 error={errors.password?.message}
                 aria-invalid={!!errors.password}
@@ -271,14 +259,16 @@ const Signup: FC = () => {
                 autoComplete="new-password"
                 startIcon={<FiLock className="size-4" />}
                 endIcon={
-                  <button
-                    type="button"
+                  <Button
+                    variant="ghost"
+                    size="icon-sm"
                     onClick={() => setShowConfirmPassword((prev) => !prev)}
-                    className="cursor-pointer text-gray-400 transition hover:text-gray-700"
+                    className="text-gray-400"
                     aria-label={showConfirmPassword ? "مخفی کردن تکرار رمز عبور" : "نمایش تکرار رمز عبور"}
+                    aria-pressed={showConfirmPassword}
                   >
                     {showConfirmPassword ? <FiEyeOff className="size-4" /> : <FiEye className="size-4" />}
-                  </button>
+                  </Button>
                 }
                 error={errors.confirmPassword?.message}
                 aria-invalid={!!errors.confirmPassword}
@@ -307,15 +297,18 @@ const Signup: FC = () => {
             </div>
 
             {/* Submit */}
-            <button
+            <Button
               type="submit"
-              disabled={isSubmitting}
-              className="flex min-h-11 w-full cursor-pointer items-center justify-center gap-2 rounded-lg bg-foreground px-5 py-2 text-sm font-medium text-background transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60 sm:self-end md:w-auto md:min-w-40"
+              size="lg"
+              fullWidth
+              isLoading={isSubmitting}
+              loadingText="در حال ثبت‌نام ..."
+              className="sm:self-end md:w-auto md:min-w-40"
             >
               <FiUser className="size-4" />
 
-              <span>{isSubmitting ? "در حال ثبت‌نام ..." : "ایجاد حساب کاربری"}</span>
-            </button>
+              <span>ایجاد حساب کاربری</span>
+            </Button>
           </form>
         </section>
       </div>

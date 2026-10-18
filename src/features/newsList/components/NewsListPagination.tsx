@@ -2,6 +2,7 @@
 
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
+import { Button } from "@/shared/ui/button";
 type PaginationProps = {
   totalPages: number;
 };
@@ -57,19 +58,15 @@ export function Pagination({ totalPages }: PaginationProps) {
   return (
     <nav aria-label="Pagination" className="flex items-center justify-center gap-2">
       {/* Next */}
-      <button
-        type="button"
+      <Button
+        variant="outline"
+        size="icon"
+        aria-label="صفحهٔ قبل"
         onClick={() => changePage(currentPage - 1)}
         disabled={currentPage === 1}
-        className="
-    flex size-10 items-center justify-center rounded-lg border
-    border-gray-200 bg-white text-gray-600 transition
-    hover:bg-gray-100 cursor-pointer
-    disabled:cursor-not-allowed disabled:opacity-40
-  "
       >
         <FiChevronRight className="size-4" />
-      </button>
+      </Button>
 
       {/* Pages */}
       {getPages().map((page, index) => {
@@ -84,36 +81,29 @@ export function Pagination({ totalPages }: PaginationProps) {
         const isActive = page === currentPage;
 
         return (
-          <button
-            type="button"
+          <Button
+            variant={isActive ? "primary" : "outline"}
+            size="icon"
             key={page}
+            aria-label={`صفحهٔ ${page}`}
             onClick={() => changePage(page)}
             aria-current={isActive ? "page" : undefined}
-            className={`
-              flex size-10 items-center justify-center rounded-lg border
-              text-sm font-medium transition cursor-pointer
-              ${isActive ? "border-black bg-black text-white" : "border-gray-200 bg-white text-gray-600 hover:bg-gray-100"}
-            `}
           >
             {page}
-          </button>
+          </Button>
         );
       })}
 
       {/* Previous */}
-      <button
-        type="button"
+      <Button
+        variant="outline"
+        size="icon"
+        aria-label="صفحهٔ بعد"
         onClick={() => changePage(currentPage + 1)}
         disabled={currentPage === totalPages}
-        className="
-    flex size-10 items-center justify-center rounded-lg border
-    border-gray-200 bg-white text-gray-600 transition
-    hover:bg-gray-100 cursor-pointer
-    disabled:cursor-not-allowed disabled:opacity-40
-  "
       >
         <FiChevronLeft className="size-4" />
-      </button>
+      </Button>
     </nav>
   );
 }
