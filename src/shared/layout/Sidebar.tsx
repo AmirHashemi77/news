@@ -7,10 +7,13 @@ import type { Dispatch, ReactNode, SetStateAction } from "react";
 import { FiHome, FiClock, FiGrid, FiZap, FiCloud, FiMail, FiX } from "react-icons/fi";
 
 import { FaInstagram, FaLinkedin, FaTelegram } from "react-icons/fa";
+import type { CurrentUser } from "@/features/user/session/types/session.type";
+import SidebarUserMenu from "./SidebarUserMenu";
 
 interface SidebarProps {
   isOpen: boolean;
   setIsOpen: Dispatch<SetStateAction<boolean>>;
+  currentUser: CurrentUser | null;
   logo?: ReactNode;
 }
 
@@ -71,7 +74,7 @@ const socialMedia = [
   },
 ];
 
-export default function Sidebar({ isOpen, setIsOpen, logo }: SidebarProps) {
+export default function Sidebar({ isOpen, setIsOpen, currentUser, logo }: SidebarProps) {
   const handleClose = () => {
     setIsOpen(false);
   };
@@ -97,6 +100,7 @@ export default function Sidebar({ isOpen, setIsOpen, logo }: SidebarProps) {
       {/* Sidebar */}
       <aside
         dir="rtl"
+        inert={!isOpen}
         className={`
           fixed right-0 top-0 z-50
           flex h-dvh
@@ -146,38 +150,41 @@ export default function Sidebar({ isOpen, setIsOpen, logo }: SidebarProps) {
         </div>
 
         {/* Navigation */}
-        <nav className="flex-1 overflow-y-auto px-4 py-6">
-          <ul className="space-y-1">
-            {menuList.map((item) => {
-              const Icon = item.icon;
+        <div className="min-h-0 flex-1 overflow-y-auto px-4 py-6">
+          <SidebarUserMenu currentUser={currentUser} onClose={handleClose} />
+          <nav>
+            <ul className="space-y-1">
+              {menuList.map((item) => {
+                const Icon = item.icon;
 
-              return (
-                <li key={item.id}>
-                  <Link
-                    href={item.href}
-                    onClick={handleClose}
-                    className="
-                      flex items-center
-                      gap-3
-                      rounded-lg
-                      px-4 py-3
-                      text-sm
-                      font-medium
-                      text-gray-700
-                      transition-colors
-                      hover:bg-gray-100
-                      hover:text-gray-950
-                    "
-                  >
-                    <Icon className="size-5 shrink-0" />
+                return (
+                  <li key={item.id}>
+                    <Link
+                      href={item.href}
+                      onClick={handleClose}
+                      className="
+                        flex items-center
+                        gap-3
+                        rounded-lg
+                        px-4 py-3
+                        text-sm
+                        font-medium
+                        text-gray-700
+                        transition-colors
+                        hover:bg-gray-100
+                        hover:text-gray-950
+                      "
+                    >
+                      <Icon className="size-5 shrink-0" />
 
-                    <span>{item.title}</span>
-                  </Link>
-                </li>
-              );
-            })}
-          </ul>
-        </nav>
+                      <span>{item.title}</span>
+                    </Link>
+                  </li>
+                );
+              })}
+            </ul>
+          </nav>
+        </div>
 
         {/* Social media */}
         <div

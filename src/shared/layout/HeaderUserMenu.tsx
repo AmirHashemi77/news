@@ -2,32 +2,19 @@
 
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
-import { useRouter } from "next/navigation";
 import { FiChevronDown, FiLogIn, FiLogOut, FiUser } from "react-icons/fi";
-import { toast } from "sonner";
-import { fetchData } from "../api/fetchData";
+import { useLogout } from "@/features/user/session/hooks/useLogout";
+import type { CurrentUser } from "@/features/user/session/types/session.type";
 
 interface HeaderUserMenuProps {
-  currentUser: {
-    id: string;
-    firstName: string;
-    lastName: string;
-    userName: string;
-    email: string;
-  } | null;
-}
-
-interface ResponseType {
-  status: string;
-  message: string;
+  currentUser: CurrentUser | null;
 }
 
 export default function HeaderUserMenu({ currentUser }: HeaderUserMenuProps) {
   const [isOpen, setIsOpen] = useState(false);
-  const [isLoggingOut, setIsLoggingOut] = useState(false);
+  const { handleLogout, isLoggingOut } = useLogout(() => setIsOpen(false));
 
   const menuRef = useRef<HTMLDivElement>(null);
-  const router = useRouter();
 
   useEffect(() => {
     const handlePointerDown = (event: PointerEvent) => {
@@ -51,42 +38,12 @@ export default function HeaderUserMenu({ currentUser }: HeaderUserMenuProps) {
     };
   }, []);
 
-  const handleLogout = async () => {
-    if (isLoggingOut) return;
-
-    setIsLoggingOut(true);
-
-    try {
-      const response = await fetchData<ResponseType, ResponseType, null>("/api/logout", {
-        method: "POST",
-        credentials: "same-origin",
-        cache: "no-store",
-      });
-
-      if (!response.ok) {
-        toast.error(response.error.message || "خروج از حساب کاربری انجام نشد.");
-        return;
-      }
-
-      setIsOpen(false);
-      toast.success("با موفقیت از حساب کاربری خارج شدید.");
-
-      router.replace("/");
-      router.refresh();
-    } catch (error) {
-      console.error("Logout request failed:", error);
-      toast.error("ارتباط با سرور برقرار نشد. دوباره تلاش کنید.");
-    } finally {
-      setIsLoggingOut(false);
-    }
-  };
-
   if (!currentUser) {
     return (
       <Link
         href="/login"
         className="
-          inline-flex h-10 shrink-0 items-center justify-center gap-2
+          hidden h-10 shrink-0 items-center justify-center gap-2 lg:inline-flex
           rounded-lg bg-foreground px-3
           text-sm font-medium text-background
           shadow-sm transition-opacity hover:opacity-90
@@ -101,7 +58,7 @@ export default function HeaderUserMenu({ currentUser }: HeaderUserMenuProps) {
   const fullName = `${currentUser.firstName} ${currentUser.lastName}`.trim() || currentUser.userName;
 
   return (
-    <div ref={menuRef} className="relative shrink-0">
+    <div ref={menuRef} className="relative hidden shrink-0 lg:block">
       <button
         type="button"
         onClick={() => setIsOpen((previous) => !previous)}

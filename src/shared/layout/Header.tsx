@@ -50,7 +50,7 @@ const Header: FC = async () => {
             <div className="flex items-center gap-4">
               <SearchInput minLength={4} action={SearchAction} />
               <HeaderUserMenu currentUser={currentUser} />
-              <MobileMenu />
+              <MobileMenu currentUser={currentUser} />
             </div>
           </div>
         </div>

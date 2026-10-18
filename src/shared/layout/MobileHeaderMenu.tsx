@@ -3,8 +3,13 @@
 import { useState } from "react";
 import { FiMenu } from "react-icons/fi";
 import Sidebar from "./Sidebar";
+import type { CurrentUser } from "@/features/user/session/types/session.type";
 
-export default function MobileMenu() {
+interface MobileMenuProps {
+  currentUser: CurrentUser | null;
+}
+
+export default function MobileMenu({ currentUser }: MobileMenuProps) {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -26,7 +31,7 @@ export default function MobileMenu() {
         <FiMenu className="size-6 text-icon hover:text-icon-hover" />
       </button>
 
-      <Sidebar isOpen={isOpen} setIsOpen={setIsOpen} logo={<span className="text-xl font-bold">LOGO</span>} />
+      <Sidebar isOpen={isOpen} setIsOpen={setIsOpen} currentUser={currentUser} logo={<span className="text-xl font-bold">LOGO</span>} />
     </>
   );
 }
