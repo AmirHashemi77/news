@@ -1,4 +1,5 @@
 import { prisma } from "@/shared/lib/prisma";
+import { RecordNewsViewInput } from "../types/newsDetails.type";
 
 export async function getNewsDetails(newsId: string) {
   const news = await prisma.news.findUnique({
@@ -90,4 +91,75 @@ export async function getNewsComments(newsId: string) {
   return {
     comments: news.comments,
   };
+}
+
+export async function recordNewsView({ newsId, userId }: RecordNewsViewInput) {
+  return await prisma.userNewsView.upsert({
+    where: {
+      userId_newsId: {
+        userId,
+        newsId,
+      },
+    },
+    create: {
+      userId,
+      newsId,
+    },
+    update: {
+      viewedAt: new Date(),
+    },
+    select: {
+      id: true,
+      userId: true,
+      newsId: true,
+      viewedAt: true,
+    },
+  });
+}
+
+export async function savedNewsHandler({ newsId, userId }: RecordNewsViewInput) {
+  return await prisma.userSavedNews.upsert({
+    where: {
+      userId_newsId: {
+        userId,
+        newsId,
+      },
+    },
+    create: {
+      userId,
+      newsId,
+    },
+    update: {
+      savedAt: new Date(),
+    },
+    select: {
+      id: true,
+      userId: true,
+      newsId: true,
+      savedAt: true,
+    },
+  });
+}
+export async function unSavedNewsHandler({ newsId, userId }: RecordNewsViewInput) {
+  return prisma.userSavedNews.deleteMany({
+    where: {
+      userId,
+      newsId,
+    },
+  });
+}
+
+export async function checkSaveNews({ newsId, userId }: RecordNewsViewInput) {
+  const savedNews = await prisma.userSavedNews.findUnique({
+    where: {
+      userId_newsId: {
+        userId,
+        newsId,
+      },
+    },
+    select: {
+      id: true,
+    },
+  });
+  return savedNews !== null;
 }

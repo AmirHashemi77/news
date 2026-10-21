@@ -4,9 +4,10 @@ import Image from "next/image";
 import { notFound } from "next/navigation";
 import { FC, Fragment } from "react";
 import { FiCalendar, FiEye } from "react-icons/fi";
-import { getNewsDetailsService } from "@/features/newsDetails/server/newsDetails.server";
+import { getNewsDetailsService, recordNewsViewServices } from "@/features/newsDetails/server/newsDetails.server";
 import { formatPersianDate } from "@/shared/lib/formatDate";
 import NewsViewTracker from "@/features/newsDetails/components/NewsViewTracker";
+import { getCurrentUser } from "@/features/user/session/server/session.server";
 
 interface PropsType {
   params: Promise<{ newsId: string }>;
@@ -18,6 +19,10 @@ const NewsDetails: FC<PropsType> = async ({ params }) => {
 
   if (news.status === "not-found") notFound();
 
+  const user = await getCurrentUser();
+  if (user) {
+    await recordNewsViewServices({ newsId, userId: user.id });
+  }
   return (
     <>
       <NewsViewTracker newsId={news.data.id} />
@@ -26,7 +31,7 @@ const NewsDetails: FC<PropsType> = async ({ params }) => {
           <Image src={news.data?.imageUrl ? news.data?.imageUrl : ""} alt={news.data?.title} fill preload sizes="(max-width: 640px) 100vw, 768px" className="-z-20 object-cover" />
           <div aria-hidden="true" className="absolute inset-0 -z-10 bg-linear-to-t from-black/90 via-black/20 to-black/20" />
 
-          <NewsDetailsActions key={news.data?.id} />
+          <NewsDetailsActions newsId={newsId} key={news.data?.id} />
 
           <div className="text-white">
             <h1 id="news-title" className="text-2xl font-bold leading-9 sm:text-3xl sm:leading-11">

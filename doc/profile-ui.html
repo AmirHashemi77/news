@@ -1,0 +1,224 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>مستند پیاده‌سازی رابط پروفایل</title>
+  <style>
+    @font-face{font-family:Vazir;src:url('../public/fonts/vazir/Vazirmatn-Regular.ttf') format('truetype');font-weight:400;font-display:swap}
+    @font-face{font-family:Vazir;src:url('../public/fonts/vazir/Vazirmatn-Bold.ttf') format('truetype');font-weight:700;font-display:swap}
+    :root{color-scheme:light;--ink:#171717;--muted:#6b7280;--line:#e5e7eb;--paper:#fff;--canvas:#f5f6f8;--gold:#92400e}
+    *{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:24px}
+    body{margin:0;background:var(--canvas);color:var(--ink);font-family:Vazir,Tahoma,sans-serif;font-size:14px;line-height:2}
+    a{color:inherit;text-underline-offset:5px}a:focus-visible,summary:focus-visible{outline:2px solid #6b7280;outline-offset:4px}
+    .layout{display:grid;grid-template-columns:240px minmax(0,1fr);max-width:1320px;margin:auto;min-height:100vh}
+    aside{position:sticky;top:0;align-self:start;padding:40px 24px;height:100vh;background:#171717;color:#fff}
+    .brand{font-size:19px;font-weight:700}.subtle{color:var(--muted)}aside .subtle{color:#a3a3a3;font-size:12px}
+    nav{display:grid;gap:8px;margin-top:32px}nav a{padding:8px 12px;border-radius:8px;text-decoration:none;color:#d4d4d4}nav a:hover{background:#292929;color:#fff}
+    main{min-width:0;padding:40px}.eyebrow{font-size:12px;letter-spacing:.02em;color:var(--muted);margin:0}
+    h1{font-size:32px;line-height:1.7;margin:8px 0 12px}h2{font-size:21px;margin:0 0 12px}h3{font-size:16px;margin:18px 0 8px}p{margin:8px 0 16px}
+    .lead{max-width:740px;font-size:15px;color:#4b5563}.badge{display:inline-flex;align-items:center;padding:2px 10px;border-radius:100px;font-size:11px;background:#f3f4f6;color:#4b5563}
+    .badge.gold{background:#fef3c7;color:var(--gold)}.badge.pass{background:#ecfdf5;color:#065f46}.badge.limit{background:#fff7ed;color:#9a3412}
+    .stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:24px 0}
+    .stat{padding:18px;background:var(--paper);border:1px solid var(--line);border-radius:14px}.stat strong{display:block;font-size:26px;line-height:1.5}.stat span{color:var(--muted);font-size:12px}
+    section{margin-top:24px;padding:26px;background:var(--paper);border:1px solid var(--line);border-radius:16px;scroll-margin-top:24px}
+    .note{padding:14px 18px;border-right:3px solid #d6b358;border-radius:8px;background:#fffbeb;color:#78350f;margin:16px 0}
+    .table-wrap{overflow-x:auto}table{width:100%;border-collapse:collapse;text-align:right;font-size:13px}th,td{padding:12px 10px;border-bottom:1px solid #f0f1f3;vertical-align:top}th{font-size:12px;color:var(--muted);background:#fafafa}tr:last-child td{border-bottom:0}
+    code,pre{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:12px}code{display:inline-block;direction:ltr;unicode-bidi:isolate;overflow-wrap:anywhere;max-width:100%;background:#f3f4f6;border-radius:5px;padding:1px 5px;line-height:1.8}
+    pre{direction:ltr;text-align:left;overflow-x:auto;background:#18181b;color:#e4e4e7;padding:20px;border-radius:12px;line-height:1.9}pre code{display:block;background:none;padding:0;color:inherit;white-space:pre;overflow-wrap:normal}
+    .flow{display:grid;gap:10px;margin:18px 0}.flow div{padding:12px 16px;background:#f9fafb;border:1px solid var(--line);border-radius:10px}.flow small{display:block;color:var(--muted)}
+    .preview{display:flex;gap:22px;align-items:center;padding:20px;border:1px solid var(--line);border-radius:14px;background:linear-gradient(140deg,#fff,#f9fafb)}.preview img{width:88px;height:88px;border-radius:50%;object-fit:cover;border:4px solid white;box-shadow:0 0 0 1px #e5e7eb}.preview p{margin:4px 0;font-size:12px;color:var(--muted)}
+    ul{padding-right:20px}li{padding:3px 0}details{border-top:1px solid var(--line);padding:14px 0}summary{cursor:pointer;font-weight:700}details p{color:#4b5563;margin-top:12px}
+    footer{padding-top:26px;color:var(--muted);font-size:12px}.status-list{display:grid;gap:12px}.status-list p{margin:0}
+    @media(max-width:900px){.layout{grid-template-columns:1fr}aside{position:static;height:auto;padding:20px}aside nav{margin-top:16px;display:flex;gap:4px;flex-wrap:wrap}nav a{font-size:12px;padding:4px 8px}main{padding:24px 16px}h1{font-size:26px}section{padding:20px}.stats{gap:8px}.stat{padding:14px}}
+    @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+    @media print{aside{display:none}.layout{display:block}main{padding:0}body{background:white}section{break-inside:avoid;box-shadow:none}pre{white-space:pre-wrap}a{color:inherit}}
+  </style>
+</head>
+<body>
+  <div class="layout">
+    <aside>
+      <div class="brand">مستند پروفایل</div>
+      <div class="subtle">رابط کاربری اپلیکیشن خبری</div>
+      <nav aria-label="فهرست مستند">
+        <a href="#overview">خلاصهٔ تغییرات</a>
+        <a href="#architecture">معماری و تصمیم‌ها</a>
+        <a href="#routes">مسیرهای صفحه‌ها</a>
+        <a href="#files">فایل‌های ایجادشده</a>
+        <a href="#relations">روابط فایل‌ها</a>
+        <a href="#code">توضیح بخش‌های کد</a>
+        <a href="#scope">محدوده و مرحلهٔ بعد</a>
+        <a href="#validation">بررسی نهایی</a>
+      </nav>
+    </aside>
+    <main>
+      <header>
+        <p class="eyebrow">گزارش پیاده‌سازی · ۲۶ مهر ۱۴۰۵</p>
+        <h1>پروفایل، از طرح تا کامپوننت</h1>
+        <p class="lead">صفحهٔ پروفایل و پنج زیرصفحه با تکیه بر ساختار موجود پروژه ساخته شدند. این سند توضیح می‌دهد هر فایل چه مسئولیتی دارد، چرا ایجاد شده و چگونه به فایل‌های دیگر متصل است.</p>
+        <span class="badge gold">مرحلهٔ فعلی: UI و Navigation</span>
+        <div class="stats">
+          <div class="stat"><strong>۶</strong><span>مسیر مستقل</span></div>
+          <div class="stat"><strong>۵</strong><span>گزینهٔ پروفایل</span></div>
+          <div class="stat"><strong>۰</strong><span>سرویس یا وابستگی جدید</span></div>
+        </div>
+      </header>
+
+      <section id="overview">
+        <h2>چه چیزی ساخته شد؟</h2>
+        <p>چیدمان تصویر مرجع با زبان فارسی و جهت راست‌به‌چپ تطبیق داده شد: عنوان در بالا، تصویر دایره‌ای در مرکز، لینک کوچک ویرایش روی عکس، نام و شناسهٔ کاربر، نشان عضویت و یک فهرست پنج‌گزینه‌ای با آیکون و فلش هدایت.</p>
+        <div class="preview">
+          <img src="../public/images/profile/avatar-demo.jpg" width="88" height="88" alt="عکس تستی ثابت پروفایل">
+          <div><strong>علی محمدی</strong><p>شناسهٔ نمونه: ۱۰۵۴۸۶۲۴</p><span class="badge gold">عضو همراه · دادهٔ نمایشی</span></div>
+        </div>
+        <p>عرض صفحه تا اندازهٔ مناسب برای خواندن محدود شده و در موبایل تمام فضای در دسترس را می‌گیرد. فاصله‌ها و اندازهٔ عکس در نمایشگر بزرگ‌تر افزایش پیدا می‌کنند. پنج ردیف منو در تمام اندازه‌ها زیر هم باقی می‌مانند تا به طرح مرجع نزدیک باشند.</p>
+      </section>
+
+      <section id="architecture">
+        <h2>معماری بر اساس پروژهٔ موجود</h2>
+        <div class="table-wrap"><table>
+          <thead><tr><th>مشاهده در پروژه</th><th>تصمیم در پروفایل</th></tr></thead>
+          <tbody>
+            <tr><td>Next.js 16، React 19 و App Router</td><td>هر آدرس، یک فایل کوچک <code>page.tsx</code> در <code>src/app/profile</code> دارد.</td></tr>
+            <tr><td>قابلیت‌های کاربر در <code>src/features/user</code> هستند.</td><td>کد UI در <code>src/features/user/profile</code> قرار گرفت؛ یک ساختار موازی ساخته نشد.</td></tr>
+            <tr><td>Featureهای خبر، کامپوننت و نوع را تفکیک می‌کنند.</td><td>کامپوننت‌ها، تنظیمات منو، دادهٔ نمونه و نوع‌ها مسئولیت‌های جدا دارند.</td></tr>
+            <tr><td>Tailwind 4، فونت وزیرمتن، رنگ‌های سفید و خاکستری</td><td>همان کلاس‌ها و رنگ‌های فعلی استفاده شدند؛ نشان طلایی ملایم از مرجع الهام گرفته است.</td></tr>
+            <tr><td>آیکون‌های <code>react-icons/fi</code> و دکمه‌های مشترک</td><td>آیکون‌های Feather و <code>Button</code> / <code>ButtonLink</code> موجود استفاده شدند.</td></tr>
+            <tr><td>Layout ریشه هدر، فوتر، فونت و RTL را فراهم می‌کند.</td><td>Layout جدیدی ساخته نشد و هدر یا فوتر تکرار نشدند.</td></tr>
+          </tbody>
+        </table></div>
+        <div class="note">لینک «پروفایل کاربری» در هدر و سایدبار از قبل به <code>/profile</code> اشاره می‌کرد. با ایجاد این صفحه، همان لینک‌ها مقصد معتبر پیدا کردند؛ فایل‌های Layout نیازی به تغییر نداشتند.</div>
+      </section>
+
+      <section id="routes">
+        <h2>صفحه‌ها و مسیرهای دسترسی</h2>
+        <div class="table-wrap"><table>
+          <thead><tr><th>صفحه</th><th>آدرس</th><th>محتوای فعلی</th></tr></thead>
+          <tbody>
+            <tr><td>پروفایل</td><td><code>/profile</code></td><td>عکس و مشخصات نمونه، نشان عضویت و پنج گزینه</td></tr>
+            <tr><td>ویرایش اطلاعات</td><td><code>/profile/edit</code></td><td>نام، نام کاربری و ایمیل نمایشی به‌صورت خواندنی</td></tr>
+            <tr><td>تغییر رمز عبور</td><td><code>/profile/change-password</code></td><td>عنوان، آیکون و توضیح نمایشی</td></tr>
+            <tr><td>خبرهای ذخیره‌شده</td><td><code>/profile/saved-news</code></td><td>جایگاه اولیهٔ فهرست شخصی</td></tr>
+            <tr><td>آخرین خبرهای دیده‌شده</td><td><code>/profile/recent-news</code></td><td>جایگاه اولیهٔ سابقهٔ مطالعه</td></tr>
+            <tr><td>نظرهای شما</td><td><code>/profile/comments</code></td><td>جایگاه اولیهٔ دیدگاه‌ها</td></tr>
+          </tbody>
+        </table></div>
+        <p>هر زیرصفحه یک دکمهٔ بازگشت به صفحهٔ قبل و یک لینک صریح «بازگشت به پروفایل» دارد. لینک ویرایش روی عکس هم به همان صفحهٔ ویرایش موجود در منو می‌رود.</p>
+      </section>
+
+      <section id="files">
+        <h2>فایل‌ها و دلیل ایجاد آن‌ها</h2>
+        <p class="subtle">مسیرهای داخل این جدول از ریشهٔ پروژه نوشته شده‌اند. تمام فایل‌های این قابلیت جدید هستند؛ منطق قابلیت‌های دیگر تغییر نکرده است.</p>
+        <div class="table-wrap"><table>
+          <thead><tr><th>فایل</th><th>مسئولیت و دلیل</th></tr></thead>
+          <tbody>
+            <tr><td><code>src/app/profile/page.tsx</code></td><td>تعریف مسیر اصلی و Metadata؛ نمایش <code>ProfileOverview</code></td></tr>
+            <tr><td><code>src/app/profile/edit/page.tsx</code></td><td>مسیر ویرایش؛ ارسال تنظیمات و مشخصات Mock به قالب زیرصفحه</td></tr>
+            <tr><td><code>src/app/profile/change-password/page.tsx</code></td><td>مسیر مستقل تغییر رمز عبور</td></tr>
+            <tr><td><code>src/app/profile/saved-news/page.tsx</code></td><td>مسیر مستقل خبرهای ذخیره‌شده</td></tr>
+            <tr><td><code>src/app/profile/recent-news/page.tsx</code></td><td>مسیر مستقل آخرین خبرهای دیده‌شده</td></tr>
+            <tr><td><code>src/app/profile/comments/page.tsx</code></td><td>مسیر مستقل نظرهای شما</td></tr>
+            <tr><td><code>src/features/user/profile/components/ProfileOverview.tsx</code></td><td>UI صفحهٔ اصلی؛ عکس، مشخصات و ترکیب با منوی پروفایل</td></tr>
+            <tr><td><code>src/features/user/profile/components/ProfileMenu.tsx</code></td><td>رندر یکسان پنج گزینه؛ جلوگیری از تکرار JSX هر ردیف</td></tr>
+            <tr><td><code>src/features/user/profile/components/ProfileSectionPage.tsx</code></td><td>قالب مشترک زیرصفحه‌ها؛ عنوان، توضیح، مشخصات اختیاری و لینک بازگشت</td></tr>
+            <tr><td><code>src/features/user/profile/components/ProfileBackButton.tsx</code></td><td>تعامل بازگشت؛ بخش کوچک Client Component با الگوی موجود در صفحهٔ خبر</td></tr>
+            <tr><td><code>src/features/user/profile/config/profileSections.ts</code></td><td>منبع مشترک عنوان، مسیر، آیکون و توضیح پنج گزینه</td></tr>
+            <tr><td><code>src/features/user/profile/data/profile.data.ts</code></td><td>نگهداری مشخصات حساب نمونه در یک نقطه</td></tr>
+            <tr><td><code>src/features/user/profile/types/profile.type.ts</code></td><td>تعریف شکل دادهٔ نمایشی و تنظیمات گزینه‌های منو</td></tr>
+            <tr><td><code>public/images/profile/avatar-demo.jpg</code></td><td>عکس ثابت محلی؛ صفحه برای دریافت آواتار به سرویس بیرونی وابسته نیست.</td></tr>
+            <tr><td><code>doc/profile-ui.html</code></td><td>همین مستند مستقل، فارسی، واکنش‌گرا و قابل بازکردن در مرورگر</td></tr>
+          </tbody>
+        </table></div>
+      </section>
+
+      <section id="relations">
+        <h2>روابط فایل‌ها</h2>
+        <pre><code>src/app/layout.tsx  (existing header, footer, font, RTL)
+└── src/app/profile/
+    ├── page.tsx
+    │   └── ProfileOverview
+    │       ├── profile.data.ts → mockProfile → local avatar
+    │       ├── ButtonLink → /profile/edit
+    │       └── ProfileMenu
+    │           └── profileSections.ts → five Link destinations
+    └── edit / change-password / saved-news / recent-news / comments
+        └── page.tsx
+            ├── profileSections.ts → title + description + icon
+            ├── profile.data.ts → details (edit only)
+            └── ProfileSectionPage
+                ├── ProfileBackButton → shared Button → next/navigation
+                └── shared ButtonLink → /profile</code></pre>
+        <div class="flow">
+          <div><strong>مسیرها فقط صفحه را انتخاب می‌کنند.</strong><small>UI اصلی داخل Feature قرار دارد؛ فایل‌های <code>page.tsx</code> شامل منطق تجاری نیستند.</small></div>
+          <div><strong>تنظیمات منو، منبع مشترک اطلاعات صفحه‌هاست.</strong><small>تغییر عنوان یا آیکون در <code>profileSections.ts</code> هم منو و هم زیرصفحه را هماهنگ می‌کند.</small></div>
+          <div><strong>پروفایل به Featureهای خبر یا ورود وابسته نشده است.</strong><small>فقط از کامپوننت‌های عمومی UI و ابزارهای فعلی Next.js استفاده می‌کند.</small></div>
+        </div>
+      </section>
+
+      <section id="code">
+        <h2>توضیح بخش‌هایی که ممکن است ناآشنا باشند</h2>
+        <details open>
+          <summary>چرا از <code>satisfies Record&lt;string, ProfileSection&gt;</code> استفاده شده؟</summary>
+          <p>این عبارت به TypeScript می‌گوید مقدار تمام کلیدهای تنظیمات باید شامل عنوان، مسیر، توضیح و آیکون معتبر باشد. در عین حال نام کلیدها، مانند <code>edit</code> و <code>saved</code>، مشخص می‌ماند؛ بنابراین نوشتن <code>profileSections.edit</code> ساده و قابل بررسی است. این عبارت در زمان اجرا کاری انجام نمی‌دهد.</p>
+        </details>
+        <details>
+          <summary><code>Object.values</code> و <code>const Icon = section.icon</code> چه می‌کنند؟</summary>
+          <p><code>Object.values(profileSections)</code> مقدارهای تنظیمات را به یک فهرست تبدیل می‌کند تا با <code>map</code> ردیف‌های منو ساخته شوند. ترتیب همین پنج کلید متنی در تنظیمات، ترتیب نمایش آن‌هاست. آیکون یک کامپوننت React است؛ آن را در متغیر <code>Icon</code> با حرف بزرگ می‌گذاریم تا بتوانیم با <code>&lt;Icon /&gt;</code> رندر کنیم.</p>
+        </details>
+        <details>
+          <summary>چرا فقط دکمهٔ بازگشت <code>use client</code> دارد؟</summary>
+          <p>این دکمه به <code>window.history</code> و <code>useRouter</code> نیاز دارد. اگر تاریخچه‌ای وجود داشته باشد، <code>router.back()</code> اجرا می‌شود؛ در غیر این صورت <code>router.replace('/profile')</code> مقصد جایگزین است. همین رفتار در عملیات صفحهٔ خبر هم وجود داشت. سایر کامپوننت‌های جدید تعاملی نیستند و Server Component باقی مانده‌اند؛ این عنوان به معنی دریافت داده از Backend نیست.</p>
+        </details>
+        <details>
+          <summary>چرا <code>details</code> در قالب زیرصفحه اختیاری است؟</summary>
+          <p>تنها صفحهٔ ویرایش، چند مقدار نمایشی مانند نام و ایمیل دارد. ارسال اختیاری این فهرست باعث می‌شود همان قالب برای پنج صفحه استفاده شود، بدون اینکه قالب دربارهٔ نوع صفحه شرط‌های متعدد داشته باشد. تگ‌های <code>dl</code>، <code>dt</code> و <code>dd</code> هم رابطهٔ «عنوان مشخصه / مقدار مشخصه» را بیان می‌کنند.</p>
+        </details>
+        <details>
+          <summary>نقش <code>bdi</code>، کلاس‌های واکنش‌گرا و <code>aria-hidden</code> چیست؟</summary>
+          <p><code>bdi</code> جهت نمایش نام کاربری و ایمیل لاتین را از متن فارسی اطراف جدا می‌کند. پیشوند <code>sm:</code> اندازه‌ها و فاصله‌ها را در نمایشگر بزرگ‌تر تغییر می‌دهد. آیکون‌های تزئینی با <code>aria-hidden</code> از صفحه‌خوان پنهان شده‌اند؛ متن لینک یا برچسب دکمه، نام قابل فهم هر کنترل را فراهم می‌کند.</p>
+        </details>
+      </section>
+
+      <section id="scope">
+        <h2>چه چیزهایی نمایشی هستند؟</h2>
+        <ul>
+          <li>نام، شناسه، نام کاربری، ایمیل، عکس و نشان عضویت از Mock Data خوانده می‌شوند.</li>
+          <li>عکس در پروژه ذخیره شده و دکمهٔ ویرایش روی آن فقط به صفحهٔ ویرایش می‌رود؛ آپلود تصویر وجود ندارد.</li>
+          <li>صفحهٔ ویرایش فقط اطلاعات خواندنی نشان می‌دهد؛ فرم ذخیره یا درخواست تغییر اطلاعات ندارد.</li>
+          <li>صفحه‌های رمز عبور، خبرهای ذخیره‌شده، بازدیدهای اخیر و نظرها فقط عنوان و توضیح نمایشی دارند.</li>
+          <li>احراز هویت جدید، API، Service، Repository، اتصال دیتابیس و وابستگی جدید اضافه نشده است.</li>
+        </ul>
+        <p>Layout عمومی پروژه همچنان رفتار قبلی خودش را دارد، از جمله منوی کاربر موجود در هدر. صفحهٔ پروفایل جدید اطلاعات واقعی آن منو را دریافت نمی‌کند و بدون افزودن شرط ورود تازه، با دادهٔ نمایشی قابل مشاهده است.</p>
+        <h3>نقاط آماده برای مرحلهٔ اتصال</h3>
+        <p>در مرحلهٔ بعد می‌توان دادهٔ واقعی را به جای <code>mockProfile</code> به UI داد؛ فرم ویرایش و تغییر رمز، فهرست‌های شخصی و سطح دسترسی را داخل همین Feature توسعه داد. تنظیمات مسیر و منو و قالب کلی زیرصفحه‌ها قابل استفادهٔ مجدد هستند.</p>
+      </section>
+
+      <section id="validation">
+        <h2>بررسی نهایی</h2>
+        <div class="status-list">
+          <p><span class="badge pass">موفق</span> هر شش مسیر با درخواست واقعی به سرور توسعه بررسی شدند؛ همه پاسخ <code>HTTP 200</code>، عنوان فارسی درست و جهت RTL داشتند. عکس محلی نیز با پاسخ صحیح سرو شد.</p>
+          <p><span class="badge pass">موفق</span> پنج گزینهٔ منو در مرورگر کلیک شدند، هرکدام به صفحهٔ خودش رفت و دکمهٔ بازگشت هر پنج صفحه دوباره پروفایل را نمایش داد.</p>
+          <p><span class="badge pass">موفق</span> چیدمان در عرض‌های <code>320px</code>، <code>390px</code>، <code>768px</code> و <code>1440px</code> بررسی شد؛ اسکرول افقی یا بریده‌شدن محتوای پروفایل دیده نشد. نمای موبایل و دسکتاپ نیز از نظر ظاهر بررسی شدند.</p>
+          <p><span class="badge pass">موفق</span> <code>ESLint</code> فایل‌های جدید بدون خطا یا هشدار اجرا شد. هر پنج تست موجود پروژه در <code>SelectBox.test.tsx</code> پاس شد. لینک‌های داخلی این مستند هم به بخش‌های معتبر اشاره می‌کنند و فایل HTML مستقیماً در مرورگر باز شد.</p>
+          <p><span class="badge pass">کامپایل موفق</span> دستور <code>npm run build -- --webpack</code> اجرا شد و مرحلهٔ کامپایل Webpack موفق بود.</p>
+          <p><span class="badge limit">محدودیت موجود</span> بیلد کامل در مرحلهٔ TypeScript با همان سه خطای موجود پیش از شروع این کار متوقف شد. هیچ خطای جدیدی از فایل‌های پروفایل گزارش نشد.</p>
+        </div>
+        <h3>خطاهای قبلی خارج از محدودهٔ پروفایل</h3>
+        <ul>
+          <li>در <code>src/app/categoryList/page.tsx</code> مقدار <code>newsCategories</code> به‌عنوان export صفحه تعریف شده که از exportهای مجاز App Router نیست.</li>
+          <li>در <code>LatestNewsListSection.tsx</code> و <code>SportNewsListSection.tsx</code> پراپرتی <code>title</code> به <code>NewsList</code> ارسال می‌شود، در حالی که نوع پراپرتی‌های آن این فیلد را ندارد.</li>
+        </ul>
+        <p>بررسی اولیهٔ کل پروژه نیز سه هشدار lint داشت: یک نوع استفاده‌نشده در فایل نوع ورود و دو آیکون استفاده‌نشده در سایدبار. برای حفظ محدودهٔ درخواست، این فایل‌های نامرتبط تغییر نکردند.</p>
+        <pre><code>npx eslint src/features/user/profile src/app/profile
+node --import tsx --test src/shared/ui/selectbox/SelectBox.test.tsx
+npm run build -- --webpack
+npx tsc --noEmit --incremental false</code></pre>
+      </section>
+      <footer>
+        <p>برای مشاهدهٔ این مستند کافی است همین فایل HTML را در مرورگر باز کنید؛ سرور یا ابزار اضافی لازم نیست. فونت و تصویر از فایل‌های محلی پروژه خوانده می‌شوند.</p>
+        <p>عکس نمونه از <a href="https://images.unsplash.com/photo-1500648767791-00dcc994a43e">Unsplash</a> دریافت و در پروژه ذخیره شده است. این تصویر و مشخصات نمونه به حساب واقعی کاربر متصل نیستند.</p>
+      </footer>
+    </main>
+  </div>
+</body>
+</html>

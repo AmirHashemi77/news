@@ -166,14 +166,7 @@ const Login: FC = () => {
                 {errors.root.credentials.message}
               </p>
             )}
-            <Button
-              type="submit"
-              size="lg"
-              fullWidth
-              isLoading={isSubmitting}
-              loadingText="در حال ورود ..."
-              className="sm:self-end md:w-auto md:min-w-36"
-            >
+            <Button type="submit" size="lg" fullWidth isLoading={isSubmitting} loadingText="در حال ورود ..." className="sm:self-end md:w-auto md:min-w-36">
               <FiLogIn className="size-4" />
 
               <span>ورود</span>

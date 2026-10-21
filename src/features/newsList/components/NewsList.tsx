@@ -26,7 +26,9 @@ const NewsList: FC<NewsListProps> = async ({ className, moreUrl, pagination, new
   return (
     <section className={cn("flex w-full flex-col items-center gap-3", className)}>
       <div className="flex w-full items-center border-b border-gray-200 mt-3" dir="rtl">
-        {newsData.pagination && newsData.pagination.totalCount > 0 && <h2 className="border-r-4 border-foreground pr-3 text-lg font-bold text-gray-900 md:text-xl">{newsData.category.name}</h2>}
+        {newsData.pagination && newsData.pagination.totalCount > 0 && (
+          <h2 className="border-r-4 border-foreground pr-3 text-lg font-bold text-gray-900 md:text-xl">{newsData.category && newsData.category.name}</h2>
+        )}
       </div>
 
       {newsData.pagination && newsData.pagination.totalCount > 0 && (

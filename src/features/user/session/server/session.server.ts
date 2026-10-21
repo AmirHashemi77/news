@@ -1,3 +1,4 @@
+import "server-only";
 import { createHash, randomBytes } from "crypto";
 import { SESSION_COOKIE_NAME, SESSION_TTL_SECONDS } from "../session.config";
 import { createSessionRecord, deleteSessionByTokenHash, findSessionByTokenHash } from "../repository/session.repository";
